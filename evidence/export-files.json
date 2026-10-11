@@ -203,8 +203,8 @@
     },
     {
       "path": "evidence/repository-action-status.json",
-      "bytes": 1389,
-      "sha256": "8f7c3ea3c40d60a100a5f4b257a8c868768e89d17ae8f433c8c09ebf72f86607"
+      "bytes": 591,
+      "sha256": "1a50ea30f461a28ca6df9b304a450911bbf8f09ca73e61ed094d4dd0160aae85"
     },
     {
       "path": "pyproject.toml",
@@ -213,8 +213,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5542,
-      "sha256": "bdce870e8d7db2c836163d1e9801a45f691d04d673f9a4dff73a9c26b9a6380e"
+      "bytes": 5358,
+      "sha256": "1bcd61fbc995ce444c5b40102a95056e23488bef34a50480e0b65557388e4051"
     },
     {
       "path": "requirements-agx-observed.txt",
@@ -978,8 +978,8 @@
     },
     {
       "path": "THIRD_PARTY.md",
-      "bytes": 873,
-      "sha256": "5fe6083572a0736da417c0ea976bc75a5b71ecbdf4ee6be7c169e7e6424386f1"
+      "bytes": 977,
+      "sha256": "4e8604a25bf37dbf2d98948fb71b4faa158c8365acde9c33670a9eeed83247ba"
     }
   ]
 }

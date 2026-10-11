@@ -35,7 +35,7 @@ See `docs/RUNNING.md` for explicit path inputs and the existing-runtime batch he
 
 Improve the two partial answers and eight withheld cases; establish independent source review and a document-disjoint holdout; test any newer candidate on a complete frozen same-protocol batch before promotion; verify organizer interfaces and formal packaging rules. Newer r36–r40 diagnostics did not supersede r31; r41 was still a diagnostic in progress when selection was checked.
 
-The requested new repository is `huawei-storage-cup-mrag` and must be private with `main` as its default branch. Repository creation on Lenovo remains pending because current tools cannot operate the existing signed-in Chrome. AGX existing GitHub SSH authentication returned the intended account and requires no additional token. Upload and main/default-branch/visibility verification await repository creation. No repository creation or remote commit is claimed; the previously named repository has not been changed.
+This source snapshot is published in the public repository `huawei-storage-cup-mrag` with `main` as its default branch, under explicit user authorization. It contains sanitized source and aggregate evidence only. Public visibility is not a claim of competition qualification or a license to redistribute the excluded models and data.
 
 ## Export validation limitation
 
