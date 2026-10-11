@@ -1,0 +1,2 @@
+# Existing cached PyPI origin, no extra CPU index.
+colorama==0.4.6

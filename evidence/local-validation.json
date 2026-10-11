@@ -1,0 +1,59 @@
+{
+  "scope": "Fresh Lenovo export validation; selected synthetic unit regressions only, no model inference, no AGX computation, no dependency installation, no full30 rerun.",
+  "python_version": "3.12.14",
+  "evaluated_source_files_verified": 134,
+  "source_and_tests_project_files_verified": 165,
+  "ast_files_passed": 136,
+  "ast_failures": [
+    {
+      "path": "scripts/build_full_index.py",
+      "type": "IndentationError",
+      "line": 112,
+      "message": "unexpected indent",
+      "present_in_original_evaluated_snapshot": true
+    }
+  ],
+  "selected_test_modules": [
+    "test_unit_reason_consistency",
+    "test_answer_source_ids",
+    "test_reader_contract",
+    "test_source_calculation"
+  ],
+  "tests_run": 13,
+  "passed": false,
+  "failures": 0,
+  "errors": 2,
+  "skipped": 0,
+  "seconds": 0.015999999945051968,
+  "failed_test_ids": [
+    "test_answer_source_ids (unittest.loader._FailedTest.test_answer_source_ids)",
+    "test_reader_contract (unittest.loader._FailedTest.test_reader_contract)"
+  ],
+  "installed_dependency_versions": {
+    "Pillow": "12.3.0",
+    "numpy": "2.3.5",
+    "pdfplumber": "0.11.9",
+    "pypdf": "6.10.0",
+    "pypdfium2": "5.13.0",
+    "reportlab": "4.4.9",
+    "nano-vectordb": null,
+    "torch": null,
+    "transformers": null,
+    "psutil": null
+  },
+  "sensitive_and_large_file_scan": {
+    "files_checked": 194,
+    "findings": [],
+    "method": "Explicit export allowlist, original file-hash verification, text checks for private-key/token headers and obvious secret assignments, personal identity paths, real contest sample IDs; artifact extension and 2MB file threshold checks. This is not an independent security audit."
+  },
+  "runtime_portability_not_established": true,
+  "remote_write_performed": false,
+  "remote_main_visibility_and_history_not_verified": true,
+  "successful_actual_test_cases": 11,
+  "test_module_load_errors": [
+    "ImportError: Failed to import test module: test_answer_source_ids",
+    "ModuleNotFoundError: No module named 'psutil'",
+    "ImportError: Failed to import test module: test_reader_contract",
+    "ModuleNotFoundError: No module named 'psutil'"
+  ]
+}

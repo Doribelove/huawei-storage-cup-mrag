@@ -1,0 +1,50 @@
+{
+  "version": "v16-r31",
+  "completed_utc": "2026-10-11T01:48:36Z",
+  "scope": "Complete development30; all questions used during development; not held out.",
+  "denominator": 30,
+  "completed_attempts": 30,
+  "batch_runtime_errors": 0,
+  "released": 22,
+  "withheld": 8,
+  "same_model_local_grader": {
+    "raw_correct": 17,
+    "source_bound_correct": 23,
+    "final_correct": 22,
+    "denominator": 30,
+    "judge_failures": 0,
+    "independent": false,
+    "official": false
+  },
+  "same_author_source_review": {
+    "complete_supported_released": 20,
+    "partial_supported_released": 2,
+    "clearly_wrong_released": 0,
+    "denominator": 30,
+    "independent": false,
+    "not_reaudited_by_exporter": true
+  },
+  "all_reader_layer_output_contract_failures": 2,
+  "elapsed_batch_seconds": 3235.8891546910163,
+  "sum_recorded_question_seconds": 3211.1952667838195,
+  "historical_regression": {
+    "tests_run": 357,
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "test_seconds": 36.059632388991304,
+    "model_weights_loaded": false,
+    "network_attempts": 0
+  },
+  "official_accuracy_established": false,
+  "independent_holdout_completed_for_this_version": false,
+  "submission_qualified": false,
+  "private_questions_answers_original_documents_and_per_case_outputs_excluded": true,
+  "source_record_sha256": {
+    "batch-summary.json": "acca2ddee43d47dd935763bbabf32407e7165fb6664221ddefebac56fd6b909f",
+    "local-judge-report.json": "2048206f0aae7d134a9c36caf62d23a4f0557c7b702e226ba4ad1368b0a7642f",
+    "source-review.json": "837ba8a25a3d56f2200d34bde962b9f6966ff98e53e6056581c5bb7f2adfeef8",
+    "regression-report.json": "43928e5c648bd05b55e55c0061f91446e1d5c7b4d13e7c13f15cdd93016ee768"
+  }
+}

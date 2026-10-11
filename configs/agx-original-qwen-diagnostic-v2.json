@@ -1,0 +1,28 @@
+{
+  "schema": "self_authored_chart_numeric_contract_v2",
+  "status": "defined_not_executed",
+  "supersedes_for_future_diagnostics_only": "agx-original-qwen-diagnostic.json",
+  "historical_v1_failures_preserved": true,
+  "source": {
+    "path_relative_to_runtime": "diagnostics/original-Qwen-single-r5-local-retry1/bar_chart.png",
+    "sha256": "b04fdd7d24b577a72fefee69051d53f9d08e2d41b7ff13232e375c682da9bbb1",
+    "kind": "self-authored diagnostic, not a competition or retrieval evaluation"
+  },
+  "model_input": {
+    "question": "Which category has the larger count, and what is the difference between the two counts?",
+    "response_schema": {
+      "refused": "boolean",
+      "winner": "category label, or empty on refusal",
+      "value": "numeric difference, or null on refusal",
+      "unit": "measurement unit, never a numeric difference",
+      "reason": "brief grounded explanation",
+      "citations": "source identity plus original-image pixel bbox covering the required labels, values and context"
+    }
+  },
+  "scorer_only_expected_not_for_model_input": {
+    "winner": "B",
+    "value": 4,
+    "unit": "count"
+  },
+  "formal_product_output_contract": "Existing main-project status/answer/citations v2; numerical values and units are stated in answer text. No diagnostic value/unit fixture is injected into real-question inference."
+}

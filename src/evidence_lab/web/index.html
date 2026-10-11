@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>多模态证据浏览</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><h1>多模态证据浏览</h1><p id="boundary">本机 BM25 检索 · 原始 PDF 回溯 · 不生成答案</p><p id="summary"></p></header>
+<main>
+<form id="search-form"><label>查询 <input id="query" name="query" maxlength="500" value="foreign direct investment" autocomplete="off"></label>
+<label>文档范围 <select id="documents"><option value="">全部文档</option></select></label><button type="submit">检索证据</button></form>
+<p id="search-status" role="status" aria-live="polite"></p>
+<div class="workspace"><section class="results"><h2>检索结果</h2><div id="hits"></div></section>
+<section class="viewer"><h2 id="page-title">选择证据查看原始页面</h2><p id="page-note"></p><p id="page-alert"></p>
+<div class="page-image"><img id="page-image" alt="原始 PDF 页面的本机渲染" hidden><div id="region-box" hidden></div></div>
+<pre id="evidence-text"></pre><button id="verify" type="button" hidden>核验原文引用</button><p id="verification" role="status"></p></section></div>
+<details id="anomaly-panel"><summary>异常页面与整页回退</summary><p>空白页按实际页面保留；表格缺失和越界区域没有猜补正文。</p><div id="anomalies"></div></details>
+<details id="chunk-panel"><summary>孤立索引来源链接</summary><p>资产链接证明图片来源。历史图像分析正文全部未验证，不用于本次 BM25 检索。</p><div id="chunk-links"></div></details>
+</main><footer>未接入 bge-m3、重排模型或 Qwen。少量检索验证不代表比赛 Accuracy / Recall。</footer>
+<script src="/app.js"></script></body></html>

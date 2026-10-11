@@ -1,0 +1,2173 @@
+{
+  "schema": "approved-bounded-agx-gpu-execution-v1",
+  "prepared_utc": "2026-10-07T11:36:08.260256+00:00",
+  "source_base_commit": "fce5460adac930e00ce28aaf2297e3c178300e78",
+  "authorization": {
+    "resource_download_and_GPU_build": true,
+    "original_model_download_and_generation": true,
+    "model_permission_conditional_on_real_no_weight_gates": true,
+    "source": "parent forwarded user answer: 当然允许; exact 25GB/80GB/24h scope on 2026-10-07"
+  },
+  "prefix": "~/huawei-mrag-runtime-20261007",
+  "limits": {
+    "download_bytes": 25000000000,
+    "disk_bytes": 80000000000,
+    "build_early_stop_logical_disk_bytes": 70000000000,
+    "build_attempt_seconds": 86400,
+    "parallel_build_jobs": 2,
+    "stream_chunk_bytes": 1048576
+  },
+  "budget": {
+    "reserved_post_gate_original_model_bytes": 17534407540,
+    "bootstrap_conservative_charge_cap_bytes": 7465592460,
+    "known_31_small_resource_bytes": 127629282,
+    "six_Qwen_JSON_bootstrap_bytes": 7051019,
+    "known_all_payload_subtotal_bytes": 17669087841,
+    "remaining_envelope_for_source_archives_retries_and_guard_reservations_bytes": 7330912159,
+    "source_archive_payload_total_unknown_no_unbounded_download": true,
+    "count_semantics": "durable pre-read conservative application-body charges, including retries/failed partials; not TCP/TLS packet bytes",
+    "SSH_code_transfer_bytes_charge_before_upload": true,
+    "primary_download_route": "AGX_direct",
+    "verified_official_small_asset_SSH_bridges_charged_conservatively": true
+  },
+  "runtime": {
+    "Python": "3.12.14",
+    "torch": "2.3.1",
+    "torchvision": "0.18.1",
+    "Transformers": "4.57.6",
+    "CUDA": "existing11.4",
+    "cuDNN": "existing8.6",
+    "attention": "eager",
+    "torch_compile": false,
+    "support_wheels_only_for_Python312_not_existing39": true
+  },
+  "torch_process_environment": {
+    "CUDA_HOME": "/usr/local/cuda-11.4",
+    "TORCH_CUDA_ARCH_LIST": "8.7",
+    "MAX_JOBS": "2",
+    "USE_NINJA": "0",
+    "USE_CUDA": "1",
+    "USE_CUDNN": "1",
+    "USE_FLASH_ATTENTION": "0",
+    "USE_MEM_EFF_ATTENTION": "0",
+    "USE_DISTRIBUTED": "0",
+    "USE_NCCL": "0",
+    "USE_KINETO": "0",
+    "USE_MKLDNN": "0",
+    "USE_FBGEMM": "0",
+    "USE_NNPACK": "0",
+    "USE_QNNPACK": "0",
+    "USE_XNNPACK": "0",
+    "BUILD_TEST": "0",
+    "BLAS": "OpenBLAS",
+    "PYTORCH_BUILD_VERSION": "2.3.1",
+    "PYTORCH_BUILD_NUMBER": "1"
+  },
+  "vision_process_environment": {
+    "BUILD_VERSION": "0.18.1",
+    "PYTORCH_VERSION": "2.3.1",
+    "FORCE_CUDA": "1",
+    "TORCHVISION_USE_PNG": "0",
+    "TORCHVISION_USE_JPEG": "0",
+    "TORCHVISION_USE_NVJPEG": "0",
+    "TORCHVISION_USE_FFMPEG": "0",
+    "TORCHVISION_USE_VIDEO_CODEC": "0"
+  },
+  "build_supervision": {
+    "cumulative_attempt_time_starts_on_first_actual_build": true,
+    "disk_scope": "all regular-file logical bytes in exact prefix including partials, archives, extracted trees, environments, outputs, weights and logs",
+    "native_build_disk_quota_proven": false,
+    "early_stop_70GB_margin_10GB_acceptance_ceiling_80GB": true,
+    "unmetered_git_submodule_update_forbidden": true,
+    "existing_cuda_system_packages_and_robot_projects_unchanged": true,
+    "system_package_or_unknown_source_need_stop_and_report": true,
+    "source_download_may_overlap_only_private_Python_build": true,
+    "torch_and_vision_builds_serial": true
+  },
+  "resources": [
+    {
+      "id": "wheel-00",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "astunparse-1.6.3-py2.py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/2b/03/13dde6512ad7b4557eb792fbcf0c653af6076b81e5941d36ec61f7ce6028/astunparse-1.6.3-py2.py3-none-any.whl",
+      "bytes": 12732,
+      "sha256": "c2652417f2c8b5bb325c885ae329bdf3f86424075c4fd1a128674bc6fba4b8e8",
+      "max_resource_bytes": 12732
+    },
+    {
+      "id": "wheel-01",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "certifi-2025.11.12-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/70/7d/9bc192684cea499815ff478dfcdc13835ddf401365057044fb721ec6bddb/certifi-2025.11.12-py3-none-any.whl",
+      "bytes": 159438,
+      "sha256": "97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b",
+      "max_resource_bytes": 159438
+    },
+    {
+      "id": "wheel-02",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "charset_normalizer-3.4.4-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/0a/4c/925909008ed5a988ccbb72dcc897407e5d6d3bd72410d69e051fc0c14647/charset_normalizer-3.4.4-py3-none-any.whl",
+      "bytes": 53402,
+      "sha256": "7a32c560861a02ff789ad905a2fe94e3f840803362c84fecf1851cb4cf3dc37f",
+      "max_resource_bytes": 53402
+    },
+    {
+      "id": "wheel-03",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "filelock-3.20.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/76/91/7216b27286936c16f5b4d0c530087e4a54eead683e6b0b73dd0c64844af6/filelock-3.20.0-py3-none-any.whl",
+      "bytes": 16054,
+      "sha256": "339b4732ffda5cd79b13f4e2711a31b0365ce445d95d243bb996273d072546a2",
+      "max_resource_bytes": 16054
+    },
+    {
+      "id": "wheel-04",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "fsspec-2025.10.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/eb/02/a6b21098b1d5d6249b7c5ab69dde30108a71e4e819d4a9778f1de1d5b70d/fsspec-2025.10.0-py3-none-any.whl",
+      "bytes": 200966,
+      "sha256": "7c7712353ae7d875407f97715f0e1ffcc21e33d5b24556cb1e090ae9409ec61d",
+      "max_resource_bytes": 200966
+    },
+    {
+      "id": "wheel-05",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "hf_xet-1.2.0-cp37-abi3-manylinux_2_28_aarch64.whl",
+      "url": "https://files.pythonhosted.org/packages/46/92/3f7ec4a1b6a65bf45b059b6d4a5d38988f63e193056de2f420137e3c3244/hf_xet-1.2.0-cp37-abi3-manylinux_2_28_aarch64.whl",
+      "bytes": 3229054,
+      "sha256": "d06fa97c8562fb3ee7a378dd9b51e343bc5bc8190254202c9771029152f5e08c",
+      "max_resource_bytes": 3229054
+    },
+    {
+      "id": "wheel-06",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "huggingface_hub-0.36.2-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/a8/af/48ac8483240de756d2438c380746e7130d1c6f75802ef22f3c6d49982787/huggingface_hub-0.36.2-py3-none-any.whl",
+      "bytes": 566395,
+      "sha256": "48f0c8eac16145dfce371e9d2d7772854a4f591bcb56c9cf548accf531d54270",
+      "max_resource_bytes": 566395
+    },
+    {
+      "id": "wheel-07",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "idna-3.11-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/0e/61/66938bbb5fc52dbdf84594873d5b51fb1f7c7794e9c0f5bd885f30bc507b/idna-3.11-py3-none-any.whl",
+      "bytes": 71008,
+      "sha256": "771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea",
+      "max_resource_bytes": 71008
+    },
+    {
+      "id": "wheel-08",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "jinja2-3.1.6-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl",
+      "bytes": 134899,
+      "sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67",
+      "max_resource_bytes": 134899
+    },
+    {
+      "id": "wheel-09",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "markupsafe-3.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+      "url": "https://files.pythonhosted.org/packages/1e/2c/799f4742efc39633a1b54a92eec4082e4f815314869865d876824c257c1e/markupsafe-3.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+      "bytes": 24332,
+      "sha256": "3a7e8ae81ae39e62a41ec302f972ba6ae23a5c5396c8e60113e9066ef893da0d",
+      "max_resource_bytes": 24332
+    },
+    {
+      "id": "wheel-10",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "mpmath-1.3.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/43/e3/7d92a15f894aa0c9c4b49b8ee9ac9850d6e63b03c9c32c0367a13ae62209/mpmath-1.3.0-py3-none-any.whl",
+      "bytes": 536198,
+      "sha256": "a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c",
+      "max_resource_bytes": 536198
+    },
+    {
+      "id": "wheel-11",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "networkx-3.4.2-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl",
+      "bytes": 1723263,
+      "sha256": "df5d4365b724cf81b8c6a7312509d0c22386097011ad1abe274afd5e9d3bbc5f",
+      "max_resource_bytes": 1723263
+    },
+    {
+      "id": "wheel-12",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "numpy-1.26.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "url": "https://files.pythonhosted.org/packages/79/f8/97f10e6755e2a7d027ca783f63044d5b1bc1ae7acb12afe6a9b4286eac17/numpy-1.26.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "bytes": 13925109,
+      "sha256": "9fad7dcb1aac3c7f0584a5a8133e3a43eeb2fe127f47e3632d43d677c66c102b",
+      "max_resource_bytes": 13925109
+    },
+    {
+      "id": "wheel-13",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "packaging-25.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl",
+      "bytes": 66469,
+      "sha256": "29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484",
+      "max_resource_bytes": 66469
+    },
+    {
+      "id": "wheel-14",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "pillow-11.3.0-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl",
+      "url": "https://files.pythonhosted.org/packages/8e/1e/b9e12bbe6e4c2220effebc09ea0923a07a6da1e1f1bfbc8d7d29a01ce32b/pillow-11.3.0-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl",
+      "bytes": 5871726,
+      "sha256": "eb76541cba2f958032d79d143b98a3a6b3ea87f0959bbe256c0b5e416599fd5d",
+      "max_resource_bytes": 5871726
+    },
+    {
+      "id": "wheel-15",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "pip-25.3-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/44/3c/d717024885424591d5376220b5e836c2d5293ce2011523c9de23ff7bf068/pip-25.3-py3-none-any.whl",
+      "bytes": 1778622,
+      "sha256": "9655943313a94722b7774661c21049070f6bbb0a1516bf02f7c8d5d9201514cd",
+      "max_resource_bytes": 1778622
+    },
+    {
+      "id": "wheel-16",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "pyyaml-6.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+      "url": "https://files.pythonhosted.org/packages/ed/23/7a778b6bd0b9a8039df8b1b1d80e2e2ad78aa04171592c8a5c43a56a6af4/pyyaml-6.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+      "bytes": 775116,
+      "sha256": "9149cad251584d5fb4981be1ecde53a1ca46c891a79788c0df828d2f166bda28",
+      "max_resource_bytes": 775116
+    },
+    {
+      "id": "wheel-17",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "regex-2025.11.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+      "url": "https://files.pythonhosted.org/packages/ea/98/6a8dff667d1af907150432cf5abc05a17ccd32c72a3615410d5365ac167a/regex-2025.11.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl",
+      "bytes": 798568,
+      "sha256": "08b884f4226602ad40c5d55f52bf91a9df30f513864e0054bad40c0e9cf1afb7",
+      "max_resource_bytes": 798568
+    },
+    {
+      "id": "wheel-18",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "requests-2.32.5-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/1e/db/4254e3eabe8020b458f1a747140d32277ec7a271daf1d235b70dc0b4e6e3/requests-2.32.5-py3-none-any.whl",
+      "bytes": 64738,
+      "sha256": "2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6",
+      "max_resource_bytes": 64738
+    },
+    {
+      "id": "wheel-19",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "safetensors-0.7.0-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "url": "https://files.pythonhosted.org/packages/f1/06/578ffed52c2296f93d7fd2d844cabfa92be51a587c38c8afbb8ae449ca89/safetensors-0.7.0-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "bytes": 491748,
+      "sha256": "e07d91d0c92a31200f25351f4acb2bc6aff7f48094e13ebb1d0fb995b54b6542",
+      "max_resource_bytes": 491748
+    },
+    {
+      "id": "wheel-20",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "setuptools-69.5.1-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/f7/29/13965af254e3373bceae8fb9a0e6ea0d0e571171b80d6646932131d6439b/setuptools-69.5.1-py3-none-any.whl",
+      "bytes": 894566,
+      "sha256": "c636ac361bc47580504644275c9ad802c50415c7522212252c033bd15f301f32",
+      "max_resource_bytes": 894566
+    },
+    {
+      "id": "wheel-21",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "six-1.17.0-py2.py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl",
+      "bytes": 11050,
+      "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+      "max_resource_bytes": 11050
+    },
+    {
+      "id": "wheel-22",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "sympy-1.13.1-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/b2/fe/81695a1aa331a842b582453b605175f419fe8540355886031328089d840a/sympy-1.13.1-py3-none-any.whl",
+      "bytes": 6189177,
+      "sha256": "db36cdc64bf61b9b24578b6f7bab1ecdd2452cf008f34faa33776680c26d66f8",
+      "max_resource_bytes": 6189177
+    },
+    {
+      "id": "wheel-23",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "tokenizers-0.22.2-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "url": "https://files.pythonhosted.org/packages/d6/84/7990e799f1309a8b87af6b948f31edaa12a3ed22d11b352eaf4f4b2e5753/tokenizers-0.22.2-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+      "bytes": 3290736,
+      "sha256": "2249487018adec45d6e3554c71d46eb39fa8ea67156c640f7513eb26f318cec7",
+      "max_resource_bytes": 3290736
+    },
+    {
+      "id": "wheel-24",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "tqdm-4.67.1-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/d0/30/dc54f88dd4a2b5dc8a0279bdd7270e735851848b762aeb1c1184ed1f6b14/tqdm-4.67.1-py3-none-any.whl",
+      "bytes": 78540,
+      "sha256": "26445eca388f82e72884e0d580d5464cd801a3ea01e63e5601bdff9ba6a48de2",
+      "max_resource_bytes": 78540
+    },
+    {
+      "id": "wheel-25",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "transformers-4.57.6-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/03/b8/e484ef633af3887baeeb4b6ad12743363af7cce68ae51e938e00aaa0529d/transformers-4.57.6-py3-none-any.whl",
+      "bytes": 11993498,
+      "sha256": "4c9e9de11333ddfe5114bc872c9f370509198acf0b87a832a0ab9458e2bd0550",
+      "max_resource_bytes": 11993498
+    },
+    {
+      "id": "wheel-26",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "typing_extensions-4.15.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/18/67/36e9267722cc04a6b9f15c7f3441c2363321a3ea07da7ae0c0707beb2a9c/typing_extensions-4.15.0-py3-none-any.whl",
+      "bytes": 44614,
+      "sha256": "f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548",
+      "max_resource_bytes": 44614
+    },
+    {
+      "id": "wheel-27",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "urllib3-2.5.0-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/a7/c2/fe1e52489ae3122415c51f387e221dd0773709bad6c6cdaa599e8a2c5185/urllib3-2.5.0-py3-none-any.whl",
+      "bytes": 129795,
+      "sha256": "e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc",
+      "max_resource_bytes": 129795
+    },
+    {
+      "id": "wheel-28",
+      "phase": "bootstrap",
+      "kind": "wheel",
+      "filename": "wheel-0.45.1-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/0b/2c/87f3254fd8ffd29e4c02732eee68a83a1d3c346ae39bc6822dcbcb697f2b/wheel-0.45.1-py3-none-any.whl",
+      "bytes": 72494,
+      "sha256": "708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248",
+      "max_resource_bytes": 72494
+    },
+    {
+      "id": "cmake",
+      "phase": "bootstrap",
+      "kind": "cmake",
+      "url": "https://github.com/Kitware/CMake/releases/download/v3.27.9/cmake-3.27.9-linux-aarch64.tar.gz",
+      "filename": "cmake-3.27.9-linux-aarch64.tar.gz",
+      "bytes": 53604675,
+      "sha256": "11bf3d30697df465cdf43664a9473a586f010c528376a966fd310a3a22082461",
+      "max_resource_bytes": 53604675
+    },
+    {
+      "id": "python",
+      "phase": "bootstrap",
+      "kind": "python",
+      "url": "https://www.python.org/ftp/python/3.12.14/Python-3.12.14.tar.xz",
+      "filename": "Python-3.12.14.tar.xz",
+      "bytes": 20820300,
+      "sha256": "5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a",
+      "max_resource_bytes": 20820300
+    },
+    {
+      "id": "source-00",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/01org/tbb",
+      "commit": "a51a90bc609bb73db8ea13841b5cf7aa4344d4a9",
+      "filename": "source-00-tbb-a51a90bc609bb73db8ea13841b5cf7aa4344d4a9.tar.gz",
+      "url": "https://github.com/01org/tbb/archive/a51a90bc609bb73db8ea13841b5cf7aa4344d4a9.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/01org/tbb/a51a90bc609bb73db8ea13841b5cf7aa4344d4a9/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-01",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
+      "commit": "a6bfc237255a6bac1513f7c1ebde6d8aed6b5191",
+      "filename": "source-01-VulkanMemoryAllocator-a6bfc237255a6bac1513f7c1ebde6d8aed6b5191.tar.gz",
+      "url": "https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator/archive/a6bfc237255a6bac1513f7c1ebde6d8aed6b5191.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator/a6bfc237255a6bac1513f7c1ebde6d8aed6b5191/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-02",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/Maratyszcza/FP16",
+      "commit": "4dfe081cf6bcd15db339cf2680b9281b8451eeb3",
+      "filename": "source-02-FP16-4dfe081cf6bcd15db339cf2680b9281b8451eeb3.tar.gz",
+      "url": "https://github.com/Maratyszcza/FP16/archive/4dfe081cf6bcd15db339cf2680b9281b8451eeb3.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/Maratyszcza/FP16/4dfe081cf6bcd15db339cf2680b9281b8451eeb3/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-03",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/Maratyszcza/FXdiv",
+      "commit": "b408327ac2a15ec3e43352421954f5b1967701d1",
+      "filename": "source-03-FXdiv-b408327ac2a15ec3e43352421954f5b1967701d1.tar.gz",
+      "url": "https://github.com/Maratyszcza/FXdiv/archive/b408327ac2a15ec3e43352421954f5b1967701d1.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/Maratyszcza/FXdiv/b408327ac2a15ec3e43352421954f5b1967701d1/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-04",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/Maratyszcza/NNPACK",
+      "commit": "c07e3a0400713d546e0dea2d5466dd22ea389c73",
+      "filename": "source-04-NNPACK-c07e3a0400713d546e0dea2d5466dd22ea389c73.tar.gz",
+      "url": "https://github.com/Maratyszcza/NNPACK/archive/c07e3a0400713d546e0dea2d5466dd22ea389c73.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/Maratyszcza/NNPACK/c07e3a0400713d546e0dea2d5466dd22ea389c73/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-05",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/Maratyszcza/psimd",
+      "commit": "072586a71b55b7f8c584153d223e95687148a900",
+      "filename": "source-05-psimd-072586a71b55b7f8c584153d223e95687148a900.tar.gz",
+      "url": "https://github.com/Maratyszcza/psimd/archive/072586a71b55b7f8c584153d223e95687148a900.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/Maratyszcza/psimd/072586a71b55b7f8c584153d223e95687148a900/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-06",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/Maratyszcza/pthreadpool",
+      "commit": "4fe0e1e183925bf8cfa6aae24237e724a96479b8",
+      "filename": "source-06-pthreadpool-4fe0e1e183925bf8cfa6aae24237e724a96479b8.tar.gz",
+      "url": "https://github.com/Maratyszcza/pthreadpool/archive/4fe0e1e183925bf8cfa6aae24237e724a96479b8.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/Maratyszcza/pthreadpool/4fe0e1e183925bf8cfa6aae24237e724a96479b8/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-07",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/NVIDIA/DCGM",
+      "commit": "ffde4e54bc7249a6039a5e6b45b395141e1217f9",
+      "filename": "source-07-DCGM-ffde4e54bc7249a6039a5e6b45b395141e1217f9.tar.gz",
+      "url": "https://github.com/NVIDIA/DCGM/archive/ffde4e54bc7249a6039a5e6b45b395141e1217f9.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/NVIDIA/DCGM/ffde4e54bc7249a6039a5e6b45b395141e1217f9/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-08",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/NVIDIA/cudnn-frontend",
+      "commit": "150798fe976556078f443fdb059a1ff0361f58a2",
+      "filename": "source-08-cudnn-frontend-150798fe976556078f443fdb059a1ff0361f58a2.tar.gz",
+      "url": "https://github.com/NVIDIA/cudnn-frontend/archive/150798fe976556078f443fdb059a1ff0361f58a2.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/NVIDIA/cudnn-frontend/150798fe976556078f443fdb059a1ff0361f58a2/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-09",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/NVIDIA/cutlass",
+      "commit": "bbe579a9e3beb6ea6626d9227ec32d0dae119a49",
+      "filename": "source-09-cutlass-bbe579a9e3beb6ea6626d9227ec32d0dae119a49.tar.gz",
+      "url": "https://github.com/NVIDIA/cutlass/archive/bbe579a9e3beb6ea6626d9227ec32d0dae119a49.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/NVIDIA/cutlass/bbe579a9e3beb6ea6626d9227ec32d0dae119a49/.gitmodules",
+        "http_status": 200,
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-10",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/NVIDIA/cutlass",
+      "commit": "fc9ebc645b63f3a6bc80aaefde5c063fb72110d6",
+      "filename": "source-10-cutlass-fc9ebc645b63f3a6bc80aaefde5c063fb72110d6.tar.gz",
+      "url": "https://github.com/NVIDIA/cutlass/archive/fc9ebc645b63f3a6bc80aaefde5c063fb72110d6.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/NVIDIA/cutlass/fc9ebc645b63f3a6bc80aaefde5c063fb72110d6/.gitmodules",
+        "http_status": 200,
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-11",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/NVIDIA/nccl",
+      "commit": "48bb7fec7953112ff37499a272317f6663f8f600",
+      "filename": "source-11-nccl-48bb7fec7953112ff37499a272317f6663f8f600.tar.gz",
+      "url": "https://github.com/NVIDIA/nccl/archive/48bb7fec7953112ff37499a272317f6663f8f600.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/NVIDIA/nccl/48bb7fec7953112ff37499a272317f6663f8f600/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-12",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/NVlabs/cub",
+      "commit": "d106ddb991a56c3df1b6d51b2409e36ba8181ce4",
+      "filename": "source-12-cub-d106ddb991a56c3df1b6d51b2409e36ba8181ce4.tar.gz",
+      "url": "https://github.com/NVlabs/cub/archive/d106ddb991a56c3df1b6d51b2409e36ba8181ce4.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/NVlabs/cub/d106ddb991a56c3df1b6d51b2409e36ba8181ce4/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-13",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/ROCmSoftwarePlatform/hipify_torch",
+      "commit": "23f53b025b466d8ec3c45d52290d3442f7fbe6b1",
+      "filename": "source-13-hipify_torch-23f53b025b466d8ec3c45d52290d3442f7fbe6b1.tar.gz",
+      "url": "https://github.com/ROCmSoftwarePlatform/hipify_torch/archive/23f53b025b466d8ec3c45d52290d3442f7fbe6b1.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/ROCmSoftwarePlatform/hipify_torch/23f53b025b466d8ec3c45d52290d3442f7fbe6b1/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-14",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/Yangqing/ios-cmake",
+      "commit": "8abaed637d56f1337d6e1d2c4026e25c1eade724",
+      "filename": "source-14-ios-cmake-8abaed637d56f1337d6e1d2c4026e25c1eade724.tar.gz",
+      "url": "https://github.com/Yangqing/ios-cmake/archive/8abaed637d56f1337d6e1d2c4026e25c1eade724.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/Yangqing/ios-cmake/8abaed637d56f1337d6e1d2c4026e25c1eade724/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-15",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/asmjit/asmjit",
+      "commit": "d3fbf7c9bc7c1d1365a94a45614b91c5a3706b81",
+      "filename": "source-15-asmjit-d3fbf7c9bc7c1d1365a94a45614b91c5a3706b81.tar.gz",
+      "url": "https://github.com/asmjit/asmjit/archive/d3fbf7c9bc7c1d1365a94a45614b91c5a3706b81.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/asmjit/asmjit/d3fbf7c9bc7c1d1365a94a45614b91c5a3706b81/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-16",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/dtrugman/pfs",
+      "commit": "f68a2fa8ea36c783bdd760371411fcb495aa3150",
+      "filename": "source-16-pfs-f68a2fa8ea36c783bdd760371411fcb495aa3150.tar.gz",
+      "url": "https://github.com/dtrugman/pfs/archive/f68a2fa8ea36c783bdd760371411fcb495aa3150.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/dtrugman/pfs/f68a2fa8ea36c783bdd760371411fcb495aa3150/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-17",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/facebook/zstd",
+      "commit": "aec56a52fbab207fc639a1937d1e708a282edca8",
+      "filename": "source-17-zstd-aec56a52fbab207fc639a1937d1e708a282edca8.tar.gz",
+      "url": "https://github.com/facebook/zstd/archive/aec56a52fbab207fc639a1937d1e708a282edca8.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/facebook/zstd/aec56a52fbab207fc639a1937d1e708a282edca8/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-18",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/facebookincubator/dynolog",
+      "commit": "7d04a0053a845370ae06ce317a22a48e9edcc74e",
+      "filename": "source-18-dynolog-7d04a0053a845370ae06ce317a22a48e9edcc74e.tar.gz",
+      "url": "https://github.com/facebookincubator/dynolog/archive/7d04a0053a845370ae06ce317a22a48e9edcc74e.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/facebookincubator/dynolog/7d04a0053a845370ae06ce317a22a48e9edcc74e/.gitmodules",
+        "http_status": 200,
+        "bytes": 803,
+        "sha256": "5e288a4b15431b932e0db3c21a084ed7f3e763954bc36031a0661fefca59ae7a"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-19",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/facebookincubator/fbjni",
+      "commit": "7e1e1fe3858c63c251c637ae41a20de425dde96f",
+      "filename": "source-19-fbjni-7e1e1fe3858c63c251c637ae41a20de425dde96f.tar.gz",
+      "url": "https://github.com/facebookincubator/fbjni/archive/7e1e1fe3858c63c251c637ae41a20de425dde96f.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/facebookincubator/fbjni/7e1e1fe3858c63c251c637ae41a20de425dde96f/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-20",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/facebookincubator/gloo",
+      "commit": "5354032ea08eadd7fc4456477f7f7c6308818509",
+      "filename": "source-20-gloo-5354032ea08eadd7fc4456477f7f7c6308818509.tar.gz",
+      "url": "https://github.com/facebookincubator/gloo/archive/5354032ea08eadd7fc4456477f7f7c6308818509.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/facebookincubator/gloo/5354032ea08eadd7fc4456477f7f7c6308818509/.gitmodules",
+        "http_status": 200,
+        "bytes": 116,
+        "sha256": "bb8e18498d68fd97579081d6ac9e8f9fd8b4738c0b5471cbbd5ff8106d111d1c"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-21",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/fmtlib/fmt",
+      "commit": "a33701196adfad74917046096bf5a2aa0ab0bb50",
+      "filename": "source-21-fmt-a33701196adfad74917046096bf5a2aa0ab0bb50.tar.gz",
+      "url": "https://github.com/fmtlib/fmt/archive/a33701196adfad74917046096bf5a2aa0ab0bb50.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/fmtlib/fmt/a33701196adfad74917046096bf5a2aa0ab0bb50/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-22",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/fmtlib/fmt",
+      "commit": "cd4af11efc9c622896a3e4cb599fa28668ca3d05",
+      "filename": "source-22-fmt-cd4af11efc9c622896a3e4cb599fa28668ca3d05.tar.gz",
+      "url": "https://github.com/fmtlib/fmt/archive/cd4af11efc9c622896a3e4cb599fa28668ca3d05.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/fmtlib/fmt/cd4af11efc9c622896a3e4cb599fa28668ca3d05/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-23",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/fmtlib/fmt",
+      "commit": "e69e5f977d458f2650bb346dadf2ad30c5320281",
+      "filename": "source-23-fmt-e69e5f977d458f2650bb346dadf2ad30c5320281.tar.gz",
+      "url": "https://github.com/fmtlib/fmt/archive/e69e5f977d458f2650bb346dadf2ad30c5320281.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/fmtlib/fmt/e69e5f977d458f2650bb346dadf2ad30c5320281/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-24",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/gflags/gflags",
+      "commit": "8411df715cf522606e3b1aca386ddfc0b63d34b4",
+      "filename": "source-24-gflags-8411df715cf522606e3b1aca386ddfc0b63d34b4.tar.gz",
+      "url": "https://github.com/gflags/gflags/archive/8411df715cf522606e3b1aca386ddfc0b63d34b4.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/gflags/gflags/8411df715cf522606e3b1aca386ddfc0b63d34b4/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-25",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/gflags/gflags",
+      "commit": "e171aa2d15ed9eb17054558e0b3a6a413bb01067",
+      "filename": "source-25-gflags-e171aa2d15ed9eb17054558e0b3a6a413bb01067.tar.gz",
+      "url": "https://github.com/gflags/gflags/archive/e171aa2d15ed9eb17054558e0b3a6a413bb01067.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/gflags/gflags/e171aa2d15ed9eb17054558e0b3a6a413bb01067/.gitmodules",
+        "http_status": 200,
+        "bytes": 93,
+        "sha256": "046995af817ac495809df4dff35084a07eee93eb722d676953f73a1e84927b64"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-26",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/XNNPACK",
+      "commit": "fcbf55af6cf28a4627bcd1f703ab7ad843f0f3a2",
+      "filename": "source-26-XNNPACK-fcbf55af6cf28a4627bcd1f703ab7ad843f0f3a2.tar.gz",
+      "url": "https://github.com/google/XNNPACK/archive/fcbf55af6cf28a4627bcd1f703ab7ad843f0f3a2.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/XNNPACK/fcbf55af6cf28a4627bcd1f703ab7ad843f0f3a2/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-27",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/benchmark",
+      "commit": "0d98dba29d66e93259db7daa53a9327df767a415",
+      "filename": "source-27-benchmark-0d98dba29d66e93259db7daa53a9327df767a415.tar.gz",
+      "url": "https://github.com/google/benchmark/archive/0d98dba29d66e93259db7daa53a9327df767a415.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/benchmark/0d98dba29d66e93259db7daa53a9327df767a415/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-28",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/benchmark",
+      "commit": "2dd015dfef425c866d9a43f2c67d8b52d709acb6",
+      "filename": "source-28-benchmark-2dd015dfef425c866d9a43f2c67d8b52d709acb6.tar.gz",
+      "url": "https://github.com/google/benchmark/archive/2dd015dfef425c866d9a43f2c67d8b52d709acb6.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/benchmark/2dd015dfef425c866d9a43f2c67d8b52d709acb6/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-29",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/benchmark",
+      "commit": "5b7683f49e1e9223cf9927b24f6fd3d6bd82e3f8",
+      "filename": "source-29-benchmark-5b7683f49e1e9223cf9927b24f6fd3d6bd82e3f8.tar.gz",
+      "url": "https://github.com/google/benchmark/archive/5b7683f49e1e9223cf9927b24f6fd3d6bd82e3f8.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/benchmark/5b7683f49e1e9223cf9927b24f6fd3d6bd82e3f8/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-30",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/benchmark",
+      "commit": "e776aa0275e293707b6a0901e0e8d8a8a3679508",
+      "filename": "source-30-benchmark-e776aa0275e293707b6a0901e0e8d8a8a3679508.tar.gz",
+      "url": "https://github.com/google/benchmark/archive/e776aa0275e293707b6a0901e0e8d8a8a3679508.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/benchmark/e776aa0275e293707b6a0901e0e8d8a8a3679508/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-31",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/flatbuffers",
+      "commit": "01834de25e4bf3975a9a00e816292b1ad0fe184b",
+      "filename": "source-31-flatbuffers-01834de25e4bf3975a9a00e816292b1ad0fe184b.tar.gz",
+      "url": "https://github.com/google/flatbuffers/archive/01834de25e4bf3975a9a00e816292b1ad0fe184b.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/flatbuffers/01834de25e4bf3975a9a00e816292b1ad0fe184b/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-32",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/gemmlowp",
+      "commit": "3fb5c176c17c765a3492cd2f0321b0dab712f350",
+      "filename": "source-32-gemmlowp-3fb5c176c17c765a3492cd2f0321b0dab712f350.tar.gz",
+      "url": "https://github.com/google/gemmlowp/archive/3fb5c176c17c765a3492cd2f0321b0dab712f350.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/gemmlowp/3fb5c176c17c765a3492cd2f0321b0dab712f350/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-33",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/glog",
+      "commit": "b33e3bad4c46c8a6345525fd822af355e5ef9446",
+      "filename": "source-33-glog-b33e3bad4c46c8a6345525fd822af355e5ef9446.tar.gz",
+      "url": "https://github.com/google/glog/archive/b33e3bad4c46c8a6345525fd822af355e5ef9446.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/glog/b33e3bad4c46c8a6345525fd822af355e5ef9446/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-34",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/googletest",
+      "commit": "58d77fa8070e8cec2dc1ed015d66b454c8d78850",
+      "filename": "source-34-googletest-58d77fa8070e8cec2dc1ed015d66b454c8d78850.tar.gz",
+      "url": "https://github.com/google/googletest/archive/58d77fa8070e8cec2dc1ed015d66b454c8d78850.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/googletest/58d77fa8070e8cec2dc1ed015d66b454c8d78850/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-35",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/googletest",
+      "commit": "5ec7f0c4a113e2f18ac2c6cc7df51ad6afc24081",
+      "filename": "source-35-googletest-5ec7f0c4a113e2f18ac2c6cc7df51ad6afc24081.tar.gz",
+      "url": "https://github.com/google/googletest/archive/5ec7f0c4a113e2f18ac2c6cc7df51ad6afc24081.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/googletest/5ec7f0c4a113e2f18ac2c6cc7df51ad6afc24081/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-36",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/googletest",
+      "commit": "7aca84427f224eeed3144123d5230d5871e93347",
+      "filename": "source-36-googletest-7aca84427f224eeed3144123d5230d5871e93347.tar.gz",
+      "url": "https://github.com/google/googletest/archive/7aca84427f224eeed3144123d5230d5871e93347.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/googletest/7aca84427f224eeed3144123d5230d5871e93347/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-37",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/googletest",
+      "commit": "aee0f9d9b5b87796ee8a0ab26b7587ec30e8858e",
+      "filename": "source-37-googletest-aee0f9d9b5b87796ee8a0ab26b7587ec30e8858e.tar.gz",
+      "url": "https://github.com/google/googletest/archive/aee0f9d9b5b87796ee8a0ab26b7587ec30e8858e.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/googletest/aee0f9d9b5b87796ee8a0ab26b7587ec30e8858e/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-38",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/googletest",
+      "commit": "cbf019de22c8dd37b2108da35b2748fd702d1796",
+      "filename": "source-38-googletest-cbf019de22c8dd37b2108da35b2748fd702d1796.tar.gz",
+      "url": "https://github.com/google/googletest/archive/cbf019de22c8dd37b2108da35b2748fd702d1796.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/googletest/cbf019de22c8dd37b2108da35b2748fd702d1796/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-39",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/googletest",
+      "commit": "e2239ee6043f73722e7aa812a459f54a28552929",
+      "filename": "source-39-googletest-e2239ee6043f73722e7aa812a459f54a28552929.tar.gz",
+      "url": "https://github.com/google/googletest/archive/e2239ee6043f73722e7aa812a459f54a28552929.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/googletest/e2239ee6043f73722e7aa812a459f54a28552929/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-40",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/google/libnop",
+      "commit": "910b55815be16109f04f4180e9adee14fb4ce281",
+      "filename": "source-40-libnop-910b55815be16109f04f4180e9adee14fb4ce281.tar.gz",
+      "url": "https://github.com/google/libnop/archive/910b55815be16109f04f4180e9adee14fb4ce281.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/google/libnop/910b55815be16109f04f4180e9adee14fb4ce281/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-41",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/houseroad/foxi",
+      "commit": "c278588e34e535f0bb8f00df3880d26928038cad",
+      "filename": "source-41-foxi-c278588e34e535f0bb8f00df3880d26928038cad.tar.gz",
+      "url": "https://github.com/houseroad/foxi/archive/c278588e34e535f0bb8f00df3880d26928038cad.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/houseroad/foxi/c278588e34e535f0bb8f00df3880d26928038cad/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-42",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/intel/ARM_NEON_2_x86_SSE",
+      "commit": "97a126f08ce318023be604d03f88bf0820a9464a",
+      "filename": "source-42-ARM_NEON_2_x86_SSE-97a126f08ce318023be604d03f88bf0820a9464a.tar.gz",
+      "url": "https://github.com/intel/ARM_NEON_2_x86_SSE/archive/97a126f08ce318023be604d03f88bf0820a9464a.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/intel/ARM_NEON_2_x86_SSE/97a126f08ce318023be604d03f88bf0820a9464a/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-43",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/intel/ideep",
+      "commit": "8a6cc4e09dc509f04f83c085e38786b1fb44e14d",
+      "filename": "source-43-ideep-8a6cc4e09dc509f04f83c085e38786b1fb44e14d.tar.gz",
+      "url": "https://github.com/intel/ideep/archive/8a6cc4e09dc509f04f83c085e38786b1fb44e14d.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/intel/ideep/8a6cc4e09dc509f04f83c085e38786b1fb44e14d/.gitmodules",
+        "http_status": 200,
+        "bytes": 82,
+        "sha256": "f656ad15f441d51b16019d1ff781bde335508d66f034d59e61efd328f5fd18de"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-44",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/intel/ittapi",
+      "commit": "5b8a7d7422611c3a0d799fb5fc5dd4abfae35b42",
+      "filename": "source-44-ittapi-5b8a7d7422611c3a0d799fb5fc5dd4abfae35b42.tar.gz",
+      "url": "https://github.com/intel/ittapi/archive/5b8a7d7422611c3a0d799fb5fc5dd4abfae35b42.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/intel/ittapi/5b8a7d7422611c3a0d799fb5fc5dd4abfae35b42/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-45",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/intel/mkl-dnn",
+      "commit": "86e6af5974177e513fd3fee58425e1063e7f1361",
+      "filename": "source-45-mkl-dnn-86e6af5974177e513fd3fee58425e1063e7f1361.tar.gz",
+      "url": "https://github.com/intel/mkl-dnn/archive/86e6af5974177e513fd3fee58425e1063e7f1361.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/intel/mkl-dnn/86e6af5974177e513fd3fee58425e1063e7f1361/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-46",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/libcpr/cpr",
+      "commit": "871ed52d350214a034f6ef8a3b8f51c5ce1bd400",
+      "filename": "source-46-cpr-871ed52d350214a034f6ef8a3b8f51c5ce1bd400.tar.gz",
+      "url": "https://github.com/libcpr/cpr/archive/871ed52d350214a034f6ef8a3b8f51c5ce1bd400.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/libcpr/cpr/871ed52d350214a034f6ef8a3b8f51c5ce1bd400/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-47",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/libuv/libuv",
+      "commit": "1dff88e5161cba5c59276d2070d2e304e4dcb242",
+      "filename": "source-47-libuv-1dff88e5161cba5c59276d2070d2e304e4dcb242.tar.gz",
+      "url": "https://github.com/libuv/libuv/archive/1dff88e5161cba5c59276d2070d2e304e4dcb242.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/libuv/libuv/1dff88e5161cba5c59276d2070d2e304e4dcb242/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-48",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/malfet/PeachPy",
+      "commit": "f45429b087dd7d5bc78bb40dc7cf06425c252d67",
+      "filename": "source-48-PeachPy-f45429b087dd7d5bc78bb40dc7cf06425c252d67.tar.gz",
+      "url": "https://github.com/malfet/PeachPy/archive/f45429b087dd7d5bc78bb40dc7cf06425c252d67.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/malfet/PeachPy/f45429b087dd7d5bc78bb40dc7cf06425c252d67/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-49",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/microsoft/mimalloc",
+      "commit": "b66e3214d8a104669c2ec05ae91ebc26a8f5ab78",
+      "filename": "source-49-mimalloc-b66e3214d8a104669c2ec05ae91ebc26a8f5ab78.tar.gz",
+      "url": "https://github.com/microsoft/mimalloc/archive/b66e3214d8a104669c2ec05ae91ebc26a8f5ab78.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/microsoft/mimalloc/b66e3214d8a104669c2ec05ae91ebc26a8f5ab78/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-50",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/mreineck/pocketfft",
+      "commit": "9d3ab05a7fffbc71a492bc6a17be034e83e8f0fe",
+      "filename": "source-50-pocketfft-9d3ab05a7fffbc71a492bc6a17be034e83e8f0fe.tar.gz",
+      "url": "https://github.com/mreineck/pocketfft/archive/9d3ab05a7fffbc71a492bc6a17be034e83e8f0fe.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/mreineck/pocketfft/9d3ab05a7fffbc71a492bc6a17be034e83e8f0fe/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-51",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/nlohmann/json",
+      "commit": "4f8fba14066156b73f1189a2b8bd568bde5284c5",
+      "filename": "source-51-json-4f8fba14066156b73f1189a2b8bd568bde5284c5.tar.gz",
+      "url": "https://github.com/nlohmann/json/archive/4f8fba14066156b73f1189a2b8bd568bde5284c5.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/nlohmann/json/4f8fba14066156b73f1189a2b8bd568bde5284c5/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-52",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/nlohmann/json",
+      "commit": "87cda1d6646592ac5866dc703c8e1839046a6806",
+      "filename": "source-52-json-87cda1d6646592ac5866dc703c8e1839046a6806.tar.gz",
+      "url": "https://github.com/nlohmann/json/archive/87cda1d6646592ac5866dc703c8e1839046a6806.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/nlohmann/json/87cda1d6646592ac5866dc703c8e1839046a6806/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-53",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/onnx/onnx",
+      "commit": "765f5ee823a67a866f4bd28a9860e81f3c811ce8",
+      "filename": "source-53-onnx-765f5ee823a67a866f4bd28a9860e81f3c811ce8.tar.gz",
+      "url": "https://github.com/onnx/onnx/archive/765f5ee823a67a866f4bd28a9860e81f3c811ce8.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/onnx/onnx/765f5ee823a67a866f4bd28a9860e81f3c811ce8/.gitmodules",
+        "http_status": 200,
+        "bytes": 240,
+        "sha256": "2c27c5b67b2675db7d5ccc4a7c4f20b873f87a07618f17fef283817c49f6a475"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-54",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/onnx/onnx",
+      "commit": "990217f043af7222348ca8f0301e17fa7b841781",
+      "filename": "source-54-onnx-990217f043af7222348ca8f0301e17fa7b841781.tar.gz",
+      "url": "https://github.com/onnx/onnx/archive/990217f043af7222348ca8f0301e17fa7b841781.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/onnx/onnx/990217f043af7222348ca8f0301e17fa7b841781/.gitmodules",
+        "http_status": 200,
+        "bytes": 255,
+        "sha256": "a24daa7634942e6d7ac0894537eb4d60d2b7691aee14385786800041d9368b75"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-55",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/onnx/onnx-tensorrt",
+      "commit": "c153211418a7c57ce071d9ce2a41f8d1c85a878f",
+      "filename": "source-55-onnx-tensorrt-c153211418a7c57ce071d9ce2a41f8d1c85a878f.tar.gz",
+      "url": "https://github.com/onnx/onnx-tensorrt/archive/c153211418a7c57ce071d9ce2a41f8d1c85a878f.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/onnx/onnx-tensorrt/c153211418a7c57ce071d9ce2a41f8d1c85a878f/.gitmodules",
+        "http_status": 200,
+        "bytes": 96,
+        "sha256": "dee936319d73e8db147cc78258ba6a791bed6f6193e97c9f28d36428a867b540"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-56",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/protocolbuffers/protobuf",
+      "commit": "d1eca4e4b421cd2997495c4b4e65cea6be4e9b8a",
+      "filename": "source-56-protobuf-d1eca4e4b421cd2997495c4b4e65cea6be4e9b8a.tar.gz",
+      "url": "https://github.com/protocolbuffers/protobuf/archive/d1eca4e4b421cd2997495c4b4e65cea6be4e9b8a.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/protocolbuffers/protobuf/d1eca4e4b421cd2997495c4b4e65cea6be4e9b8a/.gitmodules",
+        "http_status": 200,
+        "bytes": 245,
+        "sha256": "11485430a1832c0ae05c1dc651f05beeb1134e206cb39396b38c3a75e5a25772"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-57",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pybind/pybind11",
+      "commit": "3e9dfa2866941655c56877882565e7577de6fc7b",
+      "filename": "source-57-pybind11-3e9dfa2866941655c56877882565e7577de6fc7b.tar.gz",
+      "url": "https://github.com/pybind/pybind11/archive/3e9dfa2866941655c56877882565e7577de6fc7b.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pybind/pybind11/3e9dfa2866941655c56877882565e7577de6fc7b/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-58",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pybind/pybind11",
+      "commit": "5b0a6fc2017fcc176545afe3e09c9f9885283242",
+      "filename": "source-58-pybind11-5b0a6fc2017fcc176545afe3e09c9f9885283242.tar.gz",
+      "url": "https://github.com/pybind/pybind11/archive/5b0a6fc2017fcc176545afe3e09c9f9885283242.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pybind/pybind11/5b0a6fc2017fcc176545afe3e09c9f9885283242/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-59",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pybind/pybind11",
+      "commit": "a1041190c8b8ff0cd9e2f0752248ad5e3789ea0c",
+      "filename": "source-59-pybind11-a1041190c8b8ff0cd9e2f0752248ad5e3789ea0c.tar.gz",
+      "url": "https://github.com/pybind/pybind11/archive/a1041190c8b8ff0cd9e2f0752248ad5e3789ea0c.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pybind/pybind11/a1041190c8b8ff0cd9e2f0752248ad5e3789ea0c/.gitmodules",
+        "http_status": 200,
+        "bytes": 100,
+        "sha256": "d4e5b406b28c74ea6cadd42672ba2d027dc045e2f7c8631dbb3499fc63469178"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-60",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pybind/pybind11",
+      "commit": "a23996fce38ff6ccfbcdc09f1e63f2c4be5ea2ef",
+      "filename": "source-60-pybind11-a23996fce38ff6ccfbcdc09f1e63f2c4be5ea2ef.tar.gz",
+      "url": "https://github.com/pybind/pybind11/archive/a23996fce38ff6ccfbcdc09f1e63f2c4be5ea2ef.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pybind/pybind11/a23996fce38ff6ccfbcdc09f1e63f2c4be5ea2ef/.gitmodules",
+        "http_status": 200,
+        "bytes": 100,
+        "sha256": "d4e5b406b28c74ea6cadd42672ba2d027dc045e2f7c8631dbb3499fc63469178"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-61",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pytorch/QNNPACK",
+      "commit": "7d2a4e9931a82adc3814275b6219a03e24e36b4c",
+      "filename": "source-61-QNNPACK-7d2a4e9931a82adc3814275b6219a03e24e36b4c.tar.gz",
+      "url": "https://github.com/pytorch/QNNPACK/archive/7d2a4e9931a82adc3814275b6219a03e24e36b4c.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pytorch/QNNPACK/7d2a4e9931a82adc3814275b6219a03e24e36b4c/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-62",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pytorch/cpuinfo",
+      "commit": "d6860c477c99f1fce9e28eb206891af3c0e1a1d7",
+      "filename": "source-62-cpuinfo-d6860c477c99f1fce9e28eb206891af3c0e1a1d7.tar.gz",
+      "url": "https://github.com/pytorch/cpuinfo/archive/d6860c477c99f1fce9e28eb206891af3c0e1a1d7.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pytorch/cpuinfo/d6860c477c99f1fce9e28eb206891af3c0e1a1d7/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-63",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pytorch/cpuinfo",
+      "commit": "ed8b86a253800bafdb7b25c5c399f91bff9cb1f3",
+      "filename": "source-63-cpuinfo-ed8b86a253800bafdb7b25c5c399f91bff9cb1f3.tar.gz",
+      "url": "https://github.com/pytorch/cpuinfo/archive/ed8b86a253800bafdb7b25c5c399f91bff9cb1f3.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pytorch/cpuinfo/ed8b86a253800bafdb7b25c5c399f91bff9cb1f3/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-64",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pytorch/fbgemm",
+      "commit": "dbc3157bf256f1339b3fa1fef2be89ac4078be0e",
+      "filename": "source-64-fbgemm-dbc3157bf256f1339b3fa1fef2be89ac4078be0e.tar.gz",
+      "url": "https://github.com/pytorch/fbgemm/archive/dbc3157bf256f1339b3fa1fef2be89ac4078be0e.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pytorch/fbgemm/dbc3157bf256f1339b3fa1fef2be89ac4078be0e/.gitmodules",
+        "http_status": 200,
+        "bytes": 563,
+        "sha256": "d6819898c98adc8e16519766e29b8055c042686b63cdf2b5b247b36070f725b1"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-65",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pytorch/kineto",
+      "commit": "3f30237e868ca92b46b309da17d84b37be373a6e",
+      "filename": "source-65-kineto-3f30237e868ca92b46b309da17d84b37be373a6e.tar.gz",
+      "url": "https://github.com/pytorch/kineto/archive/3f30237e868ca92b46b309da17d84b37be373a6e.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pytorch/kineto/3f30237e868ca92b46b309da17d84b37be373a6e/.gitmodules",
+        "http_status": 200,
+        "bytes": 389,
+        "sha256": "ff5c3367ba4d52891a1b9e81f1282ccb6159b82b92540d9c94b287f39c28da55"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-66",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pytorch/pytorch",
+      "commit": "63d5e9221bedd1546b7d364b5ce4171547db12a9",
+      "filename": "source-66-pytorch-63d5e9221bedd1546b7d364b5ce4171547db12a9.tar.gz",
+      "url": "https://github.com/pytorch/pytorch/archive/63d5e9221bedd1546b7d364b5ce4171547db12a9.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pytorch/pytorch/63d5e9221bedd1546b7d364b5ce4171547db12a9/.gitmodules",
+        "http_status": 200,
+        "bytes": 5232,
+        "sha256": "86f7cde8998297a9c6f2c6cb6719c77f4ab3f6f62c1937cd0c9527caccb6cd31"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-67",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pytorch/tensorpipe",
+      "commit": "52791a2fd214b2a9dc5759d36725909c1daa7f2e",
+      "filename": "source-67-tensorpipe-52791a2fd214b2a9dc5759d36725909c1daa7f2e.tar.gz",
+      "url": "https://github.com/pytorch/tensorpipe/archive/52791a2fd214b2a9dc5759d36725909c1daa7f2e.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pytorch/tensorpipe/52791a2fd214b2a9dc5759d36725909c1daa7f2e/.gitmodules",
+        "http_status": 200,
+        "bytes": 445,
+        "sha256": "d7a012597acafcaf398b5106697dd13771a626f9f62ea4deedd199b86c483d76"
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-68",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/pytorch/vision",
+      "commit": "126fc22ce33e6c2426edcf9ed540810c178fe9ce",
+      "filename": "source-68-vision-126fc22ce33e6c2426edcf9ed540810c178fe9ce.tar.gz",
+      "url": "https://github.com/pytorch/vision/archive/126fc22ce33e6c2426edcf9ed540810c178fe9ce.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/pytorch/vision/126fc22ce33e6c2426edcf9ed540810c178fe9ce/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-69",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/shibatch/sleef",
+      "commit": "e0a003ee838b75d11763aa9c3ef17bf71a725bff",
+      "filename": "source-69-sleef-e0a003ee838b75d11763aa9c3ef17bf71a725bff.tar.gz",
+      "url": "https://github.com/shibatch/sleef/archive/e0a003ee838b75d11763aa9c3ef17bf71a725bff.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/shibatch/sleef/e0a003ee838b75d11763aa9c3ef17bf71a725bff/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-70",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://github.com/wjakob/clang-cindex-python3",
+      "commit": "6a00cbc4a9b8e68b71caf7f774b3f9c753ae84d5",
+      "filename": "source-70-clang-cindex-python3-6a00cbc4a9b8e68b71caf7f774b3f9c753ae84d5.tar.gz",
+      "url": "https://github.com/wjakob/clang-cindex-python3/archive/6a00cbc4a9b8e68b71caf7f774b3f9c753ae84d5.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://raw.githubusercontent.com/wjakob/clang-cindex-python3/6a00cbc4a9b8e68b71caf7f774b3f9c753ae84d5/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "source-71",
+      "phase": "bootstrap",
+      "kind": "source",
+      "repository": "https://gitlab.com/libeigen/eigen",
+      "commit": "3147391d946bb4b6c68edd901f2add6ac1f31f8c",
+      "filename": "source-71-eigen-3147391d946bb4b6c68edd901f2add6ac1f31f8c.tar.gz",
+      "url": "https://gitlab.com/libeigen/eigen/-/archive/3147391d946bb4b6c68edd901f2add6ac1f31f8c/eigen-3147391d946bb4b6c68edd901f2add6ac1f31f8c.tar.gz",
+      "bytes": null,
+      "sha256": null,
+      "max_resource_bytes": 2000000000,
+      "gitmodules_metadata": {
+        "url": "https://gitlab.com/libeigen/eigen/-/raw/3147391d946bb4b6c68edd901f2add6ac1f31f8c/.gitmodules",
+        "http_status": 404,
+        "bytes": 0
+      },
+      "source_archive_SHA256_record_on_first_approved_acquisition": true
+    },
+    {
+      "id": "qwen-00",
+      "phase": "model",
+      "kind": "weight",
+      "filename": "model-00001-of-00004.safetensors",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model-00001-of-00004.safetensors",
+      "bytes": 4902275944,
+      "sha256": "d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa",
+      "git_blob_sha1": null,
+      "max_resource_bytes": 4902275944
+    },
+    {
+      "id": "qwen-01",
+      "phase": "model",
+      "kind": "weight",
+      "filename": "model-00002-of-00004.safetensors",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model-00002-of-00004.safetensors",
+      "bytes": 4915962496,
+      "sha256": "8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5",
+      "git_blob_sha1": null,
+      "max_resource_bytes": 4915962496
+    },
+    {
+      "id": "qwen-02",
+      "phase": "model",
+      "kind": "weight",
+      "filename": "model-00003-of-00004.safetensors",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model-00003-of-00004.safetensors",
+      "bytes": 4999831048,
+      "sha256": "83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192",
+      "git_blob_sha1": null,
+      "max_resource_bytes": 4999831048
+    },
+    {
+      "id": "qwen-03",
+      "phase": "model",
+      "kind": "weight",
+      "filename": "model-00004-of-00004.safetensors",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model-00004-of-00004.safetensors",
+      "bytes": 2716270024,
+      "sha256": "0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5",
+      "git_blob_sha1": null,
+      "max_resource_bytes": 2716270024
+    },
+    {
+      "id": "qwen-04",
+      "phase": "bootstrap",
+      "kind": "Qwen_JSON",
+      "filename": "config.json",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/config.json",
+      "bytes": 1474,
+      "sha256": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+      "git_blob_sha1": "0e2df614c5fe1ad2b6b540c8625bebf2d7ec43ca",
+      "max_resource_bytes": 1474
+    },
+    {
+      "id": "qwen-05",
+      "phase": "bootstrap",
+      "kind": "Qwen_JSON",
+      "filename": "chat_template.json",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/chat_template.json",
+      "bytes": 5499,
+      "sha256": "5c72a170d2a4a1a3bc5adad2e689ae28138a9700e5b8c96c0266331e86c0acce",
+      "git_blob_sha1": "1081bacf1af7c7c6de4a585ce02cd0fd34e382da",
+      "max_resource_bytes": 5499
+    },
+    {
+      "id": "qwen-06",
+      "phase": "bootstrap",
+      "kind": "Qwen_JSON",
+      "filename": "tokenizer.json",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/tokenizer.json",
+      "bytes": 7032403,
+      "sha256": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+      "git_blob_sha1": "c6cc1014128b19d1fc46b1d30a23e3b1d35db421",
+      "max_resource_bytes": 7032403
+    },
+    {
+      "id": "qwen-07",
+      "phase": "bootstrap",
+      "kind": "Qwen_JSON",
+      "filename": "tokenizer_config.json",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/tokenizer_config.json",
+      "bytes": 10868,
+      "sha256": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+      "git_blob_sha1": "d3d3763207692c78780f4bf42d4dadf49a5c8012",
+      "max_resource_bytes": 10868
+    },
+    {
+      "id": "qwen-08",
+      "phase": "bootstrap",
+      "kind": "Qwen_JSON",
+      "filename": "preprocessor_config.json",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/preprocessor_config.json",
+      "bytes": 390,
+      "sha256": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "git_blob_sha1": "2ea84a437d448ff71b08df68fdd949d5cc4ebb64",
+      "max_resource_bytes": 390
+    },
+    {
+      "id": "qwen-09",
+      "phase": "bootstrap",
+      "kind": "Qwen_JSON",
+      "filename": "video_preprocessor_config.json",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/video_preprocessor_config.json",
+      "bytes": 385,
+      "sha256": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+      "git_blob_sha1": "3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe",
+      "max_resource_bytes": 385
+    },
+    {
+      "id": "qwen-10",
+      "phase": "model",
+      "kind": "planned_index",
+      "filename": "model.safetensors.index.json",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model.safetensors.index.json",
+      "bytes": 67759,
+      "sha256": null,
+      "git_blob_sha1": "5857ec62530eb589b1876034dd5386f1d98131a6",
+      "max_resource_bytes": 67759
+    },
+    {
+      "id": "qwen-11",
+      "phase": "model",
+      "kind": "planned_generation_config",
+      "filename": "generation_config.json",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/resolve/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/generation_config.json",
+      "bytes": 269,
+      "sha256": "8469742d1fce0de951c8909b26a2c0c0d8490837ce476efb114da9e0cefc4d44",
+      "git_blob_sha1": "e116347d7ef42621c7a5957f82c015c38d939c1f",
+      "max_resource_bytes": 269
+    }
+  ],
+  "source_placements": [
+    {
+      "destination": "sources/torch",
+      "resource_id": "source-66"
+    },
+    {
+      "destination": "sources/vision",
+      "resource_id": "source-68"
+    },
+    {
+      "destination": "sources/torch/third_party/FP16",
+      "resource_id": "source-02"
+    },
+    {
+      "destination": "sources/torch/third_party/FXdiv",
+      "resource_id": "source-03"
+    },
+    {
+      "destination": "sources/torch/third_party/NNPACK",
+      "resource_id": "source-04"
+    },
+    {
+      "destination": "sources/torch/third_party/QNNPACK",
+      "resource_id": "source-61"
+    },
+    {
+      "destination": "sources/torch/third_party/VulkanMemoryAllocator",
+      "resource_id": "source-01"
+    },
+    {
+      "destination": "sources/torch/third_party/XNNPACK",
+      "resource_id": "source-26"
+    },
+    {
+      "destination": "sources/torch/third_party/benchmark",
+      "resource_id": "source-27"
+    },
+    {
+      "destination": "sources/torch/third_party/cpuinfo",
+      "resource_id": "source-62"
+    },
+    {
+      "destination": "sources/torch/third_party/cub",
+      "resource_id": "source-12"
+    },
+    {
+      "destination": "sources/torch/third_party/cudnn_frontend",
+      "resource_id": "source-08"
+    },
+    {
+      "destination": "sources/torch/third_party/cutlass",
+      "resource_id": "source-09"
+    },
+    {
+      "destination": "sources/torch/third_party/eigen",
+      "resource_id": "source-71"
+    },
+    {
+      "destination": "sources/torch/third_party/fbgemm",
+      "resource_id": "source-64"
+    },
+    {
+      "destination": "sources/torch/third_party/flatbuffers",
+      "resource_id": "source-31"
+    },
+    {
+      "destination": "sources/torch/third_party/fmt",
+      "resource_id": "source-23"
+    },
+    {
+      "destination": "sources/torch/third_party/foxi",
+      "resource_id": "source-41"
+    },
+    {
+      "destination": "sources/torch/third_party/gloo",
+      "resource_id": "source-20"
+    },
+    {
+      "destination": "sources/torch/third_party/googletest",
+      "resource_id": "source-39"
+    },
+    {
+      "destination": "sources/torch/third_party/ideep",
+      "resource_id": "source-43"
+    },
+    {
+      "destination": "sources/torch/third_party/ios-cmake",
+      "resource_id": "source-14"
+    },
+    {
+      "destination": "sources/torch/third_party/ittapi",
+      "resource_id": "source-44"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto",
+      "resource_id": "source-65"
+    },
+    {
+      "destination": "sources/torch/third_party/mimalloc",
+      "resource_id": "source-49"
+    },
+    {
+      "destination": "sources/torch/third_party/neon2sse",
+      "resource_id": "source-42"
+    },
+    {
+      "destination": "sources/torch/third_party/nlohmann",
+      "resource_id": "source-52"
+    },
+    {
+      "destination": "sources/torch/third_party/onnx",
+      "resource_id": "source-54"
+    },
+    {
+      "destination": "sources/torch/third_party/onnx-tensorrt",
+      "resource_id": "source-55"
+    },
+    {
+      "destination": "sources/torch/third_party/pocketfft",
+      "resource_id": "source-50"
+    },
+    {
+      "destination": "sources/torch/third_party/protobuf",
+      "resource_id": "source-56"
+    },
+    {
+      "destination": "sources/torch/third_party/psimd",
+      "resource_id": "source-05"
+    },
+    {
+      "destination": "sources/torch/third_party/pthreadpool",
+      "resource_id": "source-06"
+    },
+    {
+      "destination": "sources/torch/third_party/pybind11",
+      "resource_id": "source-57"
+    },
+    {
+      "destination": "sources/torch/third_party/python-peachpy",
+      "resource_id": "source-48"
+    },
+    {
+      "destination": "sources/torch/third_party/sleef",
+      "resource_id": "source-69"
+    },
+    {
+      "destination": "sources/torch/third_party/tbb",
+      "resource_id": "source-00"
+    },
+    {
+      "destination": "sources/torch/third_party/tensorpipe",
+      "resource_id": "source-67"
+    },
+    {
+      "destination": "sources/torch/third_party/zstd",
+      "resource_id": "source-17"
+    },
+    {
+      "destination": "sources/torch/android/libs/fbjni",
+      "resource_id": "source-19"
+    },
+    {
+      "destination": "sources/torch/third_party/gemmlowp/gemmlowp",
+      "resource_id": "source-32"
+    },
+    {
+      "destination": "sources/torch/third_party/ideep/mkl-dnn",
+      "resource_id": "source-45"
+    },
+    {
+      "destination": "sources/torch/third_party/nccl/nccl",
+      "resource_id": "source-11"
+    },
+    {
+      "destination": "sources/torch/third_party/fbgemm/third_party/asmjit",
+      "resource_id": "source-15"
+    },
+    {
+      "destination": "sources/torch/third_party/fbgemm/third_party/cpuinfo",
+      "resource_id": "source-63"
+    },
+    {
+      "destination": "sources/torch/third_party/fbgemm/third_party/cutlass",
+      "resource_id": "source-10"
+    },
+    {
+      "destination": "sources/torch/third_party/fbgemm/third_party/googletest",
+      "resource_id": "source-38"
+    },
+    {
+      "destination": "sources/torch/third_party/fbgemm/third_party/hipify_torch",
+      "resource_id": "source-13"
+    },
+    {
+      "destination": "sources/torch/third_party/onnx-tensorrt/third_party/onnx",
+      "resource_id": "source-53"
+    },
+    {
+      "destination": "sources/torch/third_party/onnx/third_party/benchmark",
+      "resource_id": "source-28"
+    },
+    {
+      "destination": "sources/torch/third_party/onnx/third_party/pybind11",
+      "resource_id": "source-58"
+    },
+    {
+      "destination": "sources/torch/third_party/protobuf/third_party/benchmark",
+      "resource_id": "source-29"
+    },
+    {
+      "destination": "sources/torch/third_party/protobuf/third_party/googletest",
+      "resource_id": "source-35"
+    },
+    {
+      "destination": "sources/torch/third_party/tensorpipe/third_party/googletest",
+      "resource_id": "source-37"
+    },
+    {
+      "destination": "sources/torch/third_party/tensorpipe/third_party/libnop",
+      "resource_id": "source-40"
+    },
+    {
+      "destination": "sources/torch/third_party/tensorpipe/third_party/libuv",
+      "resource_id": "source-47"
+    },
+    {
+      "destination": "sources/torch/third_party/tensorpipe/third_party/pybind11",
+      "resource_id": "source-60"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog",
+      "resource_id": "source-18"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/fmt",
+      "resource_id": "source-21"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/googletest",
+      "resource_id": "source-36"
+    },
+    {
+      "destination": "sources/torch/third_party/onnx-tensorrt/third_party/onnx/third_party/benchmark",
+      "resource_id": "source-30"
+    },
+    {
+      "destination": "sources/torch/third_party/onnx-tensorrt/third_party/onnx/third_party/pybind11",
+      "resource_id": "source-59"
+    },
+    {
+      "destination": "sources/torch/third_party/tensorpipe/third_party/pybind11/tools/clang",
+      "resource_id": "source-70"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/DCGM",
+      "resource_id": "source-07"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/cpr",
+      "resource_id": "source-46"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/fmt",
+      "resource_id": "source-22"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/gflags",
+      "resource_id": "source-25"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/glog",
+      "resource_id": "source-33"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/googletest",
+      "resource_id": "source-34"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/json",
+      "resource_id": "source-51"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/pfs",
+      "resource_id": "source-16"
+    },
+    {
+      "destination": "sources/torch/third_party/kineto/libkineto/third_party/dynolog/third_party/gflags/doc",
+      "resource_id": "source-24"
+    },
+    {
+      "destination": "sources/torch/third_party/onnx-tensorrt/third_party/onnx/third_party/pybind11/tools/clang",
+      "resource_id": "source-70"
+    }
+  ],
+  "source_graph": {
+    "unique_repository_commit_count": 72,
+    "root_module_count": 40,
+    "nested_gitlink_count": 31,
+    "gitlink_occurrence_count": 71,
+    "recursive_declared_gitlink_graph_complete": true,
+    "graph_SHA256": "f7e0d44d9d34b22830ad2fb6f4d408939e1671f7f794273615fdba6f105fa7f6",
+    "stale_declarations_excluded": [
+      {
+        "parent_repository": "https://github.com/facebookincubator/gloo",
+        "parent_commit": "5354032ea08eadd7fc4456477f7f7c6308818509",
+        "declared_path": "third-party/googletest",
+        "declared_repository": "https://github.com/google/googletest",
+        "fixed_tree_metadata_shows_no_gitlink": true
+      }
+    ]
+  },
+  "setup_requirements": {
+    "all_declared_actual_paths_materialized_before_setup": true,
+    "extra_explicit_checks": [
+      "third_party/fbgemm/third_party/asmjit",
+      "third_party/onnx/third_party/benchmark"
+    ],
+    "USE_SYSTEM_LIBS_not_bypass": true
+  },
+  "gates_before_weights": [
+    "actual_CUDA_operators",
+    "random_initialized_tiny_Qwen_text_and_multimodal_eager",
+    "same_environment_native_processor_token_grid_budget_runtime_requalification"
+  ],
+  "historical_limits_not_applicable": [
+    "3GiB_download",
+    "60GiB_disk",
+    "8h_attempt"
+  ],
+  "actual_GPU_build_or_tests_executed_at_preparation": false
+}

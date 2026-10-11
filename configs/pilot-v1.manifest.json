@@ -1,0 +1,217 @@
+{
+  "role": "source_corpus_manifest",
+  "version": "pilot-v1",
+  "base_commit": "df31171d2b1edbe97b2cae085d87da6a2991d034",
+  "source_corpus_sha256": "bec62488bd45daef7d360525025634a4ff208ec510ff0280d57db241daff4d57",
+  "source_archive_sha256": "73eb5fbd2aeea14f26280230b9f3b94efb9ead008fe368c755391359be3e716e",
+  "selection_rule": {
+    "seed": "pilot-v1-20261003",
+    "page_bins": {
+      "short": "1..10",
+      "medium": "11..20",
+      "long": "21+"
+    },
+    "domain_slots": "eight sorted domains; target bins short/medium/long cyclically; fallback in fixed bin order",
+    "table_gap_slot": "one remaining document with independently reviewed parse-missing table; hash order",
+    "balance_slot": "least represented available page bin after nine selections; ties short/medium/long",
+    "ordering": "SHA256(seed + NUL + original PDF SHA256), then document name",
+    "deduplication": "no repeated name or parsed-body SHA256",
+    "query_or_answer_inputs": false,
+    "candidate_metadata_sha256": "74e7f693ec89588b813c7d82c22e1a5a87db143eeda62e744c54bfab79c9b525"
+  },
+  "documents": [
+    {
+      "name": "commerce_manufacturing_4426481",
+      "domain": "commerce_manufacturing",
+      "sha256": "a323362698a94cfc072ef9cf27b31fd913bfbce15e99e76b7a2ebdb4424417fc",
+      "page_count": 10,
+      "page_bin": "short",
+      "parsed_body_sha256": "a7d06636cf1e764c9784fb275319718b8e11922f2ce827a6dbb89ff7730a4b51",
+      "sampling_key": "6aad393786da263a74e101f2342099617c6536e6780273fa7f88cfbe2238ff0a",
+      "selection_slot": "domain:commerce_manufacturing",
+      "target_page_bin": "short",
+      "regions": 103,
+      "nonempty_regions": 98,
+      "region_types": {
+        "table": 7,
+        "text": 96
+      },
+      "evidence_ids_sha256": "dc90e5e3f34955cfd260f7bf3979e2ff3c54d25357a8c2d90ed5fc2e0e7f099d"
+    },
+    {
+      "name": "construction_0992970",
+      "domain": "construction",
+      "sha256": "2aca5e798d7523bdfda64415d6809f49cd770a896b52f900046b661fe0352681",
+      "page_count": 15,
+      "page_bin": "medium",
+      "parsed_body_sha256": "3d62c831ea2ef0822f860226c021d3762332025490a35de04b4415b1cd0c22c6",
+      "sampling_key": "8506f8014afa2197e3a5bfe9e587f809a2cb11efec28a6dc5456ddf104a78b48",
+      "selection_slot": "domain:construction",
+      "target_page_bin": "medium",
+      "regions": 150,
+      "nonempty_regions": 133,
+      "region_types": {
+        "equation": 1,
+        "image": 18,
+        "text": 131
+      },
+      "evidence_ids_sha256": "9173c70a2bffea504e4b652408f5a23ddf49496ea0a621980fbbaed2aa591ac6"
+    },
+    {
+      "name": "crm_4502338",
+      "domain": "crm",
+      "sha256": "7f47c582a45cb7b32d284d0a905993c75c1aac7116791301bb5067c58ed99539",
+      "page_count": 25,
+      "page_bin": "long",
+      "parsed_body_sha256": "b203dd5d71fcafe2091ecfcc8197f3eb94c6b1e8953e7f97ad560428a6716d32",
+      "sampling_key": "4996223063593f49169674cd411ba0699d538a715f877c65cc4cfcc022c11a76",
+      "selection_slot": "domain:crm",
+      "target_page_bin": "long",
+      "regions": 183,
+      "nonempty_regions": 154,
+      "region_types": {
+        "image": 4,
+        "table": 7,
+        "text": 172
+      },
+      "evidence_ids_sha256": "b1f3bd609045b76da2fc0b5584af6c962edf598dcc31c45434b53db9f7336ea4"
+    },
+    {
+      "name": "education_5882492",
+      "domain": "education",
+      "sha256": "c548884ff47505180a132ff60b7d6b0d4c906ed7b7eae23adfb79b519fb902d2",
+      "page_count": 9,
+      "page_bin": "short",
+      "parsed_body_sha256": "9aa57890ca6efa3568f35268ed56427706089bfb3ec68d8c18c4cb406468800a",
+      "sampling_key": "11ea064ea34a07870c1ca8d70f70e2d275b855a5a8011b2ac469e4ab1141ef45",
+      "selection_slot": "domain:education",
+      "target_page_bin": "short",
+      "regions": 52,
+      "nonempty_regions": 40,
+      "region_types": {
+        "image": 2,
+        "table": 2,
+        "text": 48
+      },
+      "evidence_ids_sha256": "4f15ad52ff42b950171f819d691c15bd312dbb539d8b348de62a5938fd878e16"
+    },
+    {
+      "name": "energy_7116675",
+      "domain": "energy",
+      "sha256": "e02399150792e47bc1d7257c062669fbc283997dd8c1c91895a0f86c2216d7e5",
+      "page_count": 15,
+      "page_bin": "medium",
+      "parsed_body_sha256": "2d18284162f7ae84429a5796415b67976180e432f4c9e89232eb25f883b6cb73",
+      "sampling_key": "9d8c5fa83007e246eba9d6b7535e12784535d31bd23090bcc95f7112fe463203",
+      "selection_slot": "domain:energy",
+      "target_page_bin": "medium",
+      "regions": 126,
+      "nonempty_regions": 123,
+      "region_types": {
+        "image": 4,
+        "table": 4,
+        "text": 118
+      },
+      "evidence_ids_sha256": "dc82038e8fac05cd4fc134a528d368014b310804b4e870d5553ec19ce53ccfcb"
+    },
+    {
+      "name": "finance_6440218",
+      "domain": "finance",
+      "sha256": "f76d42859361c7c3b747e435ba35a34db7bd02ec3af8b4eae315aeb4e7c39ae6",
+      "page_count": 23,
+      "page_bin": "long",
+      "parsed_body_sha256": "743ac670550a48d5862406618499155b05a461555d258c0b682e8f7c77694278",
+      "sampling_key": "1ff1a17b441ba8bae34084a1d710ace7e436464e5a11e64ef347bf15401e8c34",
+      "selection_slot": "domain:finance",
+      "target_page_bin": "long",
+      "regions": 212,
+      "nonempty_regions": 212,
+      "region_types": {
+        "table": 14,
+        "text": 198
+      },
+      "evidence_ids_sha256": "7a1429399fbf693a707cfc65b5ad2eb971b18b51965e14956e879bb6a2b6cea5"
+    },
+    {
+      "name": "healthcare_2008937",
+      "domain": "healthcare",
+      "sha256": "41c40a8756a5612ff59c0a91d8cba1a3b4e23207216ebbfae2351235c18dbff9",
+      "page_count": 7,
+      "page_bin": "short",
+      "parsed_body_sha256": "6109ff0af5cf08341e72b86740dc7c5126961b9f32c22ef320a7c2fb5f4f60be",
+      "sampling_key": "6732b52e5bb4bbfd0526a27ac4f3c6de14245b838ced516389eba43a2d72de7d",
+      "selection_slot": "domain:healthcare",
+      "target_page_bin": "short",
+      "regions": 82,
+      "nonempty_regions": 77,
+      "region_types": {
+        "image": 2,
+        "table": 2,
+        "text": 78
+      },
+      "evidence_ids_sha256": "b602a8a3df707a6dc72a651aa34e93aac046d09905fef4dab2f8388dd5062b72"
+    },
+    {
+      "name": "legal_1128978",
+      "domain": "legal",
+      "sha256": "489379cc5d0fdbace365cf82df8461cc0723f33dc6e2a645f1bd8a431634d1d3",
+      "page_count": 14,
+      "page_bin": "medium",
+      "parsed_body_sha256": "4a618b1b2b799631746cb7ffd4e685ff9a36b8031d730cb5034de1d453305b50",
+      "sampling_key": "07d1681fc17f859b8156904b2f6f268c3b30b0802830ae596100344dd1a6a246",
+      "selection_slot": "domain:legal",
+      "target_page_bin": "medium",
+      "regions": 77,
+      "nonempty_regions": 69,
+      "region_types": {
+        "image": 11,
+        "text": 66
+      },
+      "evidence_ids_sha256": "61538536f0529a59552959eeb6b60fa39ac3883d4144930d8f6363c1914459f1"
+    },
+    {
+      "name": "commerce_manufacturing_2701564",
+      "domain": "commerce_manufacturing",
+      "sha256": "e3aeedcd08dc3c24603c2c6bc207e61cf2941ba43af967e9720481424ba510bc",
+      "page_count": 18,
+      "page_bin": "medium",
+      "parsed_body_sha256": "5db44ed67612357da9fb84c4176a25a84d23ca5eecdbc2e7dd8627c8b1d8284b",
+      "sampling_key": "37d5244354a660e16dc57e8bb56c5b42156910d9b4f51c217c812406188ce321",
+      "selection_slot": "source:reviewed_table_parse_gap",
+      "target_page_bin": "any",
+      "regions": 192,
+      "nonempty_regions": 159,
+      "region_types": {
+        "image": 11,
+        "table": 2,
+        "text": 179
+      },
+      "evidence_ids_sha256": "4df3b1e515c17786c5d427d9776ea4cb1fb7779c0f91e916ecfe81a6abf313ec"
+    },
+    {
+      "name": "energy_2357218",
+      "domain": "energy",
+      "sha256": "9c81d6ecc278edf52337154b638df617b45a81f05a3d4043d35716fa185728a2",
+      "page_count": 24,
+      "page_bin": "long",
+      "parsed_body_sha256": "9416b324cd94bb4810981165e824727925484ce169ac8b2b42b1c75840d5ccd1",
+      "sampling_key": "0a7f6939a676ca88cdd852ebfea4be7c33d205e16b9f899159eec1a4cde5bad1",
+      "selection_slot": "source:page_bin_balance",
+      "target_page_bin": "long",
+      "regions": 210,
+      "nonempty_regions": 178,
+      "region_types": {
+        "image": 8,
+        "table": 7,
+        "text": 195
+      },
+      "evidence_ids_sha256": "272b48bc4b02cdeb8189910c8d8dda37789fd62f7465d918f2af6cd8ecbe9c34"
+    }
+  ],
+  "source_only": true,
+  "qa_gold_read": false,
+  "scope": "10 source documents for development diagnostics; not official evaluation",
+  "total_pages": 160,
+  "total_regions": 1387,
+  "total_nonempty_regions": 1243
+}

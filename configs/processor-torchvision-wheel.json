@@ -1,0 +1,19 @@
+{
+  "package": "torchvision",
+  "version": "0.25.0+cpu",
+  "filename": "torchvision-0.25.0+cpu-cp312-cp312-win_amd64.whl",
+  "official_index": "https://download.pytorch.org/whl/cpu/torchvision/",
+  "url": "https://download-r2.pytorch.org/whl/cpu/torchvision-0.25.0%2Bcpu-cp312-cp312-win_amd64.whl",
+  "bytes": 4303171,
+  "sha256": "2d444009c0956669ada149f61ed78f257c1cc96d259efa6acf3929ca96ceb3f0",
+  "metadata_sha256": "db45f59e8c9a0aee510ff4c8277736f8848cba45ae83dd15fcddfba6843f78cf",
+  "requires_python": ">=3.10",
+  "ordinary_dependencies": [
+    "numpy",
+    "torch==2.10.0",
+    "pillow!=8.3.*,>=5.3.0"
+  ],
+  "extras_selected": [],
+  "wheel_body_downloaded": false,
+  "installation_performed": false
+}

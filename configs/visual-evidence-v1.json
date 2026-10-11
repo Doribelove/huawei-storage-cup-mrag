@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "purpose": "Source-only page/crop binding diagnostic; no answer scoring or visual inference",
+  "base_commit": "bdb16c347b1210d1aaed9e635bb47291f234b9e7",
+  "data_archive_sha256": "73eb5fbd2aeea14f26280230b9f3b94efb9ead008fe368c755391359be3e716e",
+  "original_regions_sha256": "bec62488bd45daef7d360525025634a4ff208ec510ff0280d57db241daff4d57",
+  "full_source_regions_sha256": "0e6a8cd814f17bb14b9cf0a70ef5ae932bed9199ca4f4c7c776f5f31ca6ae3ab",
+  "dpi": 100,
+  "cases": [
+    {
+      "case": "native-commerce-page4",
+      "evidence_id": "19ac1f782bed674d12ef0e47b7fdf763d9477277a37c9cbab954722eb4eb98e9",
+      "document_name": "commerce_manufacturing_2024985",
+      "page": 4,
+      "expected_selection": "verified_native_region_crop"
+    },
+    {
+      "case": "native-crm-page6",
+      "evidence_id": "c3ee9be537839443953e6dbbe2f51f00581edf936c83341493c674d8f8da21df",
+      "document_name": "crm_4502338",
+      "page": 6,
+      "expected_selection": "verified_native_region_crop"
+    },
+    {
+      "case": "quantized-crm-page7",
+      "evidence_id": "523a74ec7fd5ab106c5a6703340dadebc62078cfbea57f1a6d4fe62cd2ea0b17",
+      "document_name": "crm_4502338",
+      "page": 7,
+      "expected_selection": "full_visible_pdf_page"
+    }
+  ]
+}

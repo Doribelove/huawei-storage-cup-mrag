@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multimodal-evidence-lab"
+version = "0.1.0"
+description = "Offline PDF evidence and retrieval baseline with auditable citations"
+requires-python = ">=3.12"
+dependencies = ["pdfplumber==0.11.9", "pypdf==6.10.0", "pypdfium2==5.13.0", "reportlab==4.4.9", "Pillow==12.3.0", "numpy==2.3.5", "nano-vectordb==0.0.4.3"]
+
+[project.optional-dependencies]
+semantic = ["torch==2.10.0", "transformers==4.57.6", "safetensors==0.7.0", "psutil==7.1.3"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+evidence_lab = ["web/*.html", "web/*.js", "web/*.css", "workbench_web/*.html", "workbench_web/*.js", "workbench_web/*.css"]

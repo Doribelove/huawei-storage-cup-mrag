@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "base_commit": "09ccc931ba88cc601ded6f10b2c56be9921f3be6",
+  "purpose": "Fixed source header presence diagnostic, not answer labels or semantic table continuity scoring",
+  "max_backward_pages": 2,
+  "max_unique_pages": 3,
+  "max_image_assets": 4,
+  "max_total_pixels": 3000000,
+  "cases": [
+    {
+      "case": "native-commerce-page4",
+      "evidence_id": "19ac1f782bed674d12ef0e47b7fdf763d9477277a37c9cbab954722eb4eb98e9",
+      "expected_candidate_pages": [3],
+      "expected_header_columns": [
+        "Owner Group",
+        "Supermarkets, Hypermarkets and Club Outlets",
+        "Current Stores",
+        "Estimated annual sales"
+      ]
+    },
+    {
+      "case": "native-crm-page6",
+      "evidence_id": "c3ee9be537839443953e6dbbe2f51f00581edf936c83341493c674d8f8da21df",
+      "expected_candidate_pages": [5, 4],
+      "expected_header_columns": [
+        "Position",
+        "SANC Responsibilities",
+        "Qualifications",
+        "Position Requirements",
+        "Documentation"
+      ]
+    }
+  ]
+}

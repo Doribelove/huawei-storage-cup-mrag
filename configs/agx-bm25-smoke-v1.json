@@ -1,0 +1,14 @@
+{
+  "schema": "agx-bm25-smoke-v1",
+  "retrieval_route": "full_corpus_bm25",
+  "retrieval_top_k": 5,
+  "selected_regions": 2,
+  "render_dpi": 100,
+  "min_pixels": 65536,
+  "max_pixels": 65536,
+  "max_new_tokens": 384,
+  "generation_seconds": 120,
+  "support_max_new_tokens": 192,
+  "support_seconds": 90,
+  "seed": 0
+}

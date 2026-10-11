@@ -1,0 +1,32 @@
+{
+  "version": "agent-coverage-v1-pre-inference",
+  "base_commit": "eaf8fb21ebe6abfeb9a0a68268eaa1f16b90cbc2",
+  "baseline_agent_sha256": "d2613c998b7aa68110d11f45a206df4248398a6de961e08459f4313e591ae167",
+  "purpose": "Repair an observed loss of subquery source documents at final top5; source coverage is not answer correctness",
+  "input_hashes": {
+    "original_source": "bec62488bd45daef7d360525025634a4ff208ec510ff0280d57db241daff4d57",
+    "full_source": "0e6a8cd814f17bb14b9cf0a70ef5ae932bed9199ca4f4c7c776f5f31ca6ae3ab",
+    "full_index": "69cf88ab4af7fb2b872b945570f98e279fc8d9010242ca38fd59edafa7a92206",
+    "pilot_index": "b24f58efbc9486638330016da2b89f3cfba97296243464562b8d7036b9b7dc2c",
+    "pilot_manifest": "108a3b3e1ba7b9ce876813a93aeb9fd6884d2f16fbe1ff9d9474a25b9545ea43"
+  },
+  "corpora": ["reviewed10-PDF pilot plus source-only native overlay", "completed100-PDF full corpus/index"],
+  "cases": [
+    {"id": "known_multidoc", "question": "COVID-19 financial results and digitalization", "document_scope": "", "kind": "previously_observed_source_diagnostic"},
+    {"id": "reverse_multidoc", "question": "digitalization and COVID-19 financial results", "document_scope": "", "kind": "clause_order_diagnostic"},
+    {"id": "receiving_scoped", "question": "What is the responsibility of the Receiving Clerk?", "document_scope": "crm_4502338", "kind": "single_source_control"},
+    {"id": "same_document_compound", "question": "Receiving Clerk responsibility and purchase document", "document_scope": "crm_4502338", "kind": "scoped_compound_control"},
+    {"id": "unsupported_compound", "question": "Quantum warehouse regulation and Martian fish law", "document_scope": "", "kind": "uncalibrated_relevance_negative_probe_not_labeled_answerability"}
+  ],
+  "budgets": {"max_queries": 3, "route_pool": 20, "final_regions": 5, "max_rerank_pairs": 40, "max_seconds": 90, "max_added_regions": 8, "max_added_characters": 6000},
+  "model_policy": "Reuse pinned local BGE-M3 and bge-reranker-v2-m3 on CPU float32; same original-window validator; no download/rebuild/alternate model",
+  "pool_selection": "Bound fusion to at most60 source-verified input IDs; retain20. If unscoped executed subqueries identify distinct original PDF SHA groups, retain their highest fusion-ranked group representative inside20 while preserving global fusion best. Record every replacement.",
+  "final_selection": "Rerank the entire selected20 pool within40pairs once, retaining full ranked output. Keep global reranker best and at most one highest-ranked representative per distinct PDF group identified by executed subquery top1. Fill remaining slots by original ranking; return in that ranking order. Scoped and no-decomposition routes preserve ordinary ranking. Lower k explicitly reports capacity/unmet groups.",
+  "boundary": "Source groups are derived only from returned verified subquery candidates, never a supplied expected document/answer label. SHA identity avoids counting identical PDF bytes under different names. Different PDF bytes with equivalent meaning are not detected as families.",
+  "control": "Load exact hash-checked eaf8fb21 Agent source as a trusted local module. Both baseline and fixed execute genuine reranker forward passes; query-route outputs may be shared through a declared in-memory cache to isolate policy. Do not reuse historical logits.",
+  "repeatability": "For every case, run the fixed pure pool/final selector twice on the same recorded genuine routes/ranked candidates and require exact ID/order/trace equality; synthetic tests cover input order/rank ties, capacity, scope, lineage and provenance rejection.",
+  "metrics": ["unique original-PDF SHA groups and document names in top5", "executed-subquery top1 source-group coverage in top5", "promoted/displaced IDs and missing candidate groups", "all source bindings", "original-window Dense lineage", "actual query/reranker calls and pairs", "cold loads, declared cache status, per-route wall latency and peak process working set", "soft budget stops/overruns"],
+  "answer_access": "No provided30 question/answer/reference-label file or previous QA prediction payload is opened; diagnostic questions above are source-derived development probes. Neither retriever nor selector receives expected-source or answer labels.",
+  "reader_boundary": "Only bounded unique source context and quote/schema validation tests; no Qwen/vision/semantic-support inference. All Agent supported_answer and answer_generated remain false.",
+  "reporting": "Report both corpora and all five cases, including no gain, displaced evidence and unrelated-source promotion. No parameter tuning from these observations, blind-test claim, answer accuracy or award claim. Fixed then baseline inference order is declared, not counterbalanced hardware timing."
+}
