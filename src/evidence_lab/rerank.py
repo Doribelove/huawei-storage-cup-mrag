@@ -41,8 +41,9 @@ def select_passage_windows(text: str, offsets: list, capacity: int, query: str,
 
 
 class LocalReranker:
-    def __init__(self,model_dir:Path,threads:int=4,max_length:int=512,*,matched_chunk_validator=None):
+    def __init__(self,model_dir:Path,threads:int=4,max_length:int=512,*,matched_chunk_validator=None,device:str='cpu'):
         if not 1<=threads<=8 or not 64<=max_length<=512: raise ValueError('Reranker CPU budget exceeded')
+        if device not in ('cpu','cuda'): raise ValueError('Use an explicit CPU or CUDA reranker device')
         for name,(size,kind,expected) in PINNED.items():
             path=model_dir/name
             if path.stat().st_size!=size: raise ValueError('Pinned reranker file size mismatch')
@@ -55,18 +56,27 @@ class LocalReranker:
         import torch
         from transformers import AutoModelForSequenceClassification,AutoTokenizer
         self.torch=torch;torch.set_num_threads(threads)
+        if device=='cuda':
+            if not torch.cuda.is_available(): raise ValueError('Requested CUDA reranker is unavailable')
+            if torch.backends.cuda.matmul.allow_tf32: raise ValueError('CUDA FP32 comparison requires TF32 disabled')
         self.tokenizer=AutoTokenizer.from_pretrained(model_dir,local_files_only=True,trust_remote_code=False,use_fast=True)
         self.model,loading=AutoModelForSequenceClassification.from_pretrained(model_dir,local_files_only=True,
             trust_remote_code=False,use_safetensors=True,dtype=torch.float32,attn_implementation='eager',output_loading_info=True)
         if any(loading[k] for k in ('missing_keys','unexpected_keys','mismatched_keys','error_msgs')):
             raise ValueError('Reranker model state mismatch')
         if self.model.config.num_labels!=1: raise ValueError('Unexpected reranker output shape')
+        self.model.to(device=device)
+        if any(p.device.type!=device or p.dtype!=torch.float32 for p in self.model.parameters()):
+            raise ValueError('Reranker device or FP32 parameter contract mismatch')
         self.model.eval();self.model.requires_grad_(False);self.max_length=max_length
         self.matched_chunk_validator=matched_chunk_validator
         self.identity={'model_id':MODEL_ID,'revision':REVISION,'weights_sha256':PINNED['model.safetensors'][2],
-                       'tokenizer_sha256':PINNED['tokenizer.json'][2],'device':'cpu','dtype':'float32','threads':threads,
+                       'tokenizer_sha256':PINNED['tokenizer.json'][2],'device':device,'dtype':'float32','threads':threads,
                        'max_length':max_length,'batch_size':1,'passage_max_windows':2,'aggregation':'max raw logit',
                        'trust_remote_code':False,'local_files_only':True,'torch_version':torch.__version__}
+        if device=='cuda':
+            self.identity.update(attention_implementation='eager',cuda_matmul_allow_tf32=False,
+                cuda_device_name=torch.cuda.get_device_name(0))
 
     def rerank(self,query:str,hits:list[dict],top_k:int=5,max_pairs:int=40)->tuple[list[dict],dict]:
         started=time.perf_counter()
@@ -98,7 +108,7 @@ class LocalReranker:
                 inputs=self.tokenizer.prepare_for_model(qids,pair_ids=ids[start:end],add_special_tokens=True,
                     truncation=False,return_attention_mask=True,return_token_type_ids=False)
                 if len(inputs['input_ids'])>self.max_length: raise ValueError('Reranker input budget exceeded')
-                tensors={k:self.torch.tensor([v],dtype=self.torch.long) for k,v in inputs.items()}
+                tensors={k:self.torch.tensor([v],dtype=self.torch.long,device=self.identity['device']) for k,v in inputs.items()}
                 with self.torch.inference_mode(): value=float(self.model(**tensors).logits[0,0])
                 if not math.isfinite(value): raise ValueError('Nonfinite reranker logit')
                 values.append(value);pairs+=1

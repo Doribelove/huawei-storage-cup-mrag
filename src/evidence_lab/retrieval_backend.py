@@ -1,4 +1,4 @@
-"""Actual pinned CPU retrieval backend; no labels, reader or reference-page access."""
+"""Pinned local retrieval; optional CUDA FP32 reranker, no labels or reference pages."""
 import json
 from pathlib import Path
 import time
@@ -11,7 +11,7 @@ from .rerank import LocalReranker
 
 class SourceRetrievalBackend:
     ROUTES=('bm25','dense','rrf','rrf_rerank','dense_rerank')
-    def __init__(self,data_root,bge_dir,reranker_dir,*,threads=4):
+    def __init__(self,data_root,bge_dir,reranker_dir,*,threads=4,reranker_device='cpu'):
         root=Path(data_root);build=json.loads((root/'data/full/full-build-report.json').read_text())
         corpus=root/'data/full/regions.jsonl';storage=root/'data/full/full.nano.json'
         if not build['complete'] or sha256_file(corpus)!=build['frozen_corpus_sha256'] or sha256_file(storage)!=build['index_sha256']:
@@ -25,17 +25,18 @@ class SourceRetrievalBackend:
         self.compatibility=self.index.qualify_query_runtime(self.bge)
         index_load=time.perf_counter()-start
         start=time.perf_counter();self.reranker=LocalReranker(Path(reranker_dir),threads=threads,
-            matched_chunk_validator=self.index.validate_matched_chunk);reranker_load=time.perf_counter()-start
+            matched_chunk_validator=self.index.validate_matched_chunk,device=reranker_device);reranker_load=time.perf_counter()-start
         self.identity={'actual_BGE':dict(self.bge.identity),'historical_index_build':build['model_identity'],
             'index_runtime_compatibility':self.compatibility,'actual_reranker':dict(self.reranker.identity),
             'corpus_sha256':build['frozen_corpus_sha256'],'index_sha256':build['index_sha256'],
-            'device_all_retrieval_models':'cpu','BGE_load_seconds':bge_load,
+            'device_all_retrieval_models':'cpu' if reranker_device=='cpu' else 'mixed_cpu_BGE_cuda_reranker',
+            'BGE_load_seconds':bge_load,
             'index_load_and_qualification_seconds':index_load,'reranker_load_seconds':reranker_load,
             'ranking_pool':20,'reranker_max_pairs':40,'reference_labels_accessed':False}
 
     def search(self,question,route='rrf_rerank',top_k=5):
         if route not in self.ROUTES or not 1<=top_k<=20:raise ValueError('Unsupported bounded retrieval route')
-        started=time.perf_counter();details={'route':route,'model_device':'cpu'}
+        started=time.perf_counter();details={'route':route,'model_device':self.identity['device_all_retrieval_models']}
         bm25=[];dense=[]
         if route in ('bm25','rrf','rrf_rerank'):
             t=time.perf_counter();bm25=self.bm25.search(question,20);details['BM25_seconds']=time.perf_counter()-t

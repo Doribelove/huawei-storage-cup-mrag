@@ -1,0 +1,36 @@
+{
+  "static_source_validation": {
+    "copied_frozen_files": 180,
+    "application_files": 63,
+    "helper_scripts": 10,
+    "test_modules": 53,
+    "original_raganything_files": 13,
+    "python_AST_passed": 148,
+    "public_secret_and_privacy_scan_findings": [],
+    "model_calls": 0,
+    "new_dependency_installations": 0,
+    "actual_GPU_smoke": false
+  },
+  "fresh_source_only_fixture_tests": {
+    "scope": "fresh source-only export synthetic six-test fixture suite; no model inference",
+    "tests_run": 6,
+    "passed": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "vendor_tree_present": false,
+    "model_calls": 0,
+    "dependency_substitutions": false,
+    "dependency_installations": 0,
+    "full_suite_rerun": false,
+    "genuine_GPU_smoke": false
+  },
+  "prior_revised_ZIP_client_and_judge_checks": {
+    "official_client_real_local_HTTP_fixture": "passed with test-only pip-vendored requests",
+    "official_judge_import_and_statistics": "passed with installed Windows pydantic/core replacing aarch64 vendor",
+    "model_or_paid_judge_calls": 0,
+    "production_GPU_validation": false
+  },
+  "historical_381_tests_not_freshly_rerun": true,
+  "full_revised_delivery_GPU_smoke": "not performed; sole target execution owner must coordinate"
+}

@@ -25,6 +25,8 @@ from evidence_lab.support import QwenSupportVerifier, finalize_answer
 from evidence_lab.portable import PortableSource
 from evidence_lab.evaluation import load_questions
 from evidence_lab.evidence_selection import select_distinct_pages
+from evidence_lab.runtime_limits import RuntimeLimits
+from evidence_lab.submission_io import final_citation_sources
 
 def save(path,data):
     temp=path.with_suffix('.new')
@@ -50,9 +52,6 @@ def code_version(project):
             'working_source_manifest_sha256':hashlib.sha256(json.dumps(files,sort_keys=True).encode()).hexdigest(),
             'files':files,'git_repository_present':(project/'.git').is_dir(),'uncommitted_changes':'See source manifest and local change report; package has no .git'}
 
-AUTHORIZATION=json.loads(Path(os.environ['EVIDENCE_LAB_AUTHORIZATION']).read_text())
-DEADLINE=AUTHORIZATION['absolute_deadline_epoch']
-
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--data-root',type=Path,required=True);ap.add_argument('--model-dir',type=Path,required=True)
@@ -61,9 +60,19 @@ def main():
     ap.add_argument('--retry-failed',action='store_true',help='Preserve and retry failed completed attempts with the identical frozen run')
     ap.add_argument('--bge-dir',type=Path);ap.add_argument('--reranker-dir',type=Path)
     ap.add_argument('--native-image-inventory',type=Path,help='Frozen original-PDF search hints; empty-answer recovery only')
+    ap.add_argument('--authorization-file',type=Path,help='Optional explicit host authorization; never inferred from a developer home directory')
+    ap.add_argument('--max-run-seconds',type=int,default=5400,help='Invocation scheduling budget300..14400seconds; external supervisor still enforces hard limits')
     ap.add_argument('--oracle-pages',type=Path,help='Explicit isolated reference-page Reader diagnostic, never a retrieval score')
     args=ap.parse_args();args.data_root=args.data_root.resolve();args.output=args.output.resolve()
+    runtime_limits=RuntimeLimits.resolve(max_run_seconds=args.max_run_seconds,authorization_file=args.authorization_file)
     config=json.loads(args.config.read_text())
+    for option in ('bounded_qualification_source_acquisition','source_qualification_quote_candidates','bounded_original_symbol_candidates','bounded_question_focus_recovery','native_complete_paragraph_quote_candidates','bounded_typed_diagram_candidates'):
+        if type(config.get(option,False)) is not bool:
+            raise ValueError(option+' must be explicitly boolean')
+    if config.get('source_qualification_quote_candidates') and not config.get('bounded_qualification_source_acquisition'):
+        raise ValueError('Qualification quotes require bounded original-source acquisition')
+    if config.get('native_complete_paragraph_quote_candidates') and not config.get('bounded_question_focus_recovery'):
+        raise ValueError('Native paragraph quotes require bounded physical source acquisition')
     allowed_routes=('full_corpus_bm25','bm25','dense','rrf','rrf_rerank','dense_rerank')
     assert config['retrieval_route'] in allowed_routes
     assert config.get('evidence_selection','rank_top2') in ('rank_top2','distinct_page_top2','distinct_page_top3')
@@ -78,10 +87,13 @@ def main():
         assert set(oracle)=={q['sample_id'] for q in questions}
     if args.add_empty_evidence_check:questions=questions+[{'sample_id':'self_authored_empty_evidence_001','question':'ZXQUNAVAILABLE2099RECOVERYCODE'}]
     args.output.mkdir(parents=True,exist_ok=True)
+    save(args.output/f'invocation-limits-{time.time_ns()}.json',runtime_limits.report())
     previous_summary_path=args.output/'summary.json'
     previous_summary=json.loads(previous_summary_path.read_text()) if previous_summary_path.exists() else None
     version=code_version(Path(__file__).resolve().parents[1])
-    feature_search=None;feature_identity=None
+    feature_search=None;feature_identity=None;diagram_search=None
+    if config.get('bounded_typed_diagram_candidates') and not config.get('bounded_native_image_source_recovery'):
+        raise ValueError('Diagram candidates require the verified original image inventory')
     if config.get('bounded_native_image_source_recovery'):
         assert args.native_image_inventory and not oracle,'Native image recovery requires a frozen corpus inventory'
         inventory_path=args.native_image_inventory.resolve()
@@ -95,6 +107,9 @@ def main():
         assert len(features)==inventory['image_denominator']
         from evidence_lab.image_feature_search import ImageFeatureSearch
         feature_search=ImageFeatureSearch(features,load_evidence(args.data_root/'data/full/regions.jsonl'))
+        if config.get('bounded_typed_diagram_candidates'):
+            from evidence_lab.same_page_figure import SamePageFigureSearch
+            diagram_search=SamePageFigureSearch(features,load_evidence(args.data_root/'data/full/regions.jsonl'))
         feature_identity={'features_sha256':features_hash,'inventory_summary_sha256':sha256_file(inventory_path/'summary.json'),
             'feature_denominator':len(features),'failed_features_retained':feature_search.failed_feature_records,
             'search_hints_are_source_quotes':False,'primary_retrieval_modified':False}
@@ -107,7 +122,7 @@ def main():
             'original_audit_sha256':sha256_file(args.data_root/'data/audit/data-audit.json'),
             'model_revision':'0c351dd01ed87e9c1b53cbc748cba10e6187ff3b','question_ids':[q['sample_id'] for q in questions],
             'gold_answers_or_reference_pages_read':False,'seed':config['seed'],
-            'retrieval_route':config['retrieval_route'],'authorization_deadline_epoch':DEADLINE,
+            'retrieval_route':config['retrieval_route'],'authorization_deadline_epoch':runtime_limits.authorization_deadline_epoch,
             'oracle_reference_pages_used':bool(oracle),'evaluation_kind':config.get('evaluation_kind','retrieved_development_QA'),
             'oracle_reference_projection_sha256':sha256_file(args.oracle_pages) if args.oracle_pages else None,
             'runtime_packages':runtime_versions,'python_version':sys.version,'python_executable':sys.executable,
@@ -156,6 +171,16 @@ def main():
             save(args.output/'summary.json',{'schema':'agx-QA-summary-v1','question_denominator':len(questions),
                 'completed_attempts':len(cases),'failed':sum(c['status']=='failed' for c in cases),
                 'source_recovery_errors':sum(bool(c.get('bounded_source_recovery',{}).get('error')) for c in cases),
+                'question_focus_errors':sum(bool(c.get('bounded_question_focus_recovery',{}).get('error')) for c in cases),
+                'question_focus_reader_calls':sum(c.get('bounded_question_focus_recovery',{}).get('actual_reader_calls',0) for c in cases),
+                'question_focus_candidates_applied':sum(c.get('bounded_question_focus_recovery',{}).get('candidate_applied',False) for c in cases),
+                'native_paragraph_quote_candidates_applied':sum(bool(c.get('native_paragraph_quote_record')) for c in cases),
+                'diagram_extraction_errors':sum(bool(c.get('bounded_typed_diagram_candidates',{}).get('error')) for c in cases),
+                'diagram_transcription_calls':sum(c.get('bounded_typed_diagram_candidates',{}).get('actual_transcription_calls',0) for c in cases),
+                'diagram_candidates_applied':sum(c.get('bounded_typed_diagram_candidates',{}).get('applied',False) for c in cases),
+                'original_symbol_errors':sum(bool(c.get('bounded_original_symbol_candidates',{}).get('error')) for c in cases),
+                'symbol_label_transcription_calls':sum(c.get('bounded_original_symbol_candidates',{}).get('actual_transcription_calls',0) for c in cases),
+                'symbol_candidates_applied':sum(c.get('bounded_original_symbol_candidates',{}).get('applied',False) for c in cases),
                 'source_support_errors':sum(c.get('evidence_support',{}).get('status')=='verifier_failed'
                     or bool(c.get('evidence_support',{}).get('error')) for c in cases),
                 'source_support_attempt_errors':sum(bool(p.get('error')) for c in cases
@@ -175,7 +200,8 @@ def main():
         if config['retrieval_route'] not in ('full_corpus_bm25','bm25'):
             assert args.bge_dir and args.reranker_dir,'Pinned retrieval model paths are required'
             from evidence_lab.retrieval_backend import SourceRetrievalBackend
-            backend=SourceRetrievalBackend(args.data_root,args.bge_dir,args.reranker_dir)
+            backend=SourceRetrievalBackend(args.data_root,args.bge_dir,args.reranker_dir,
+                reranker_device=config.get('reranker_device','cpu'))
             save(args.output/'retrieval-models.json',backend.identity)
         for question in questions:
             sample_id=question['sample_id'];assert sample_id and all(c.isalnum() or c in '_-' for c in sample_id)
@@ -195,7 +221,7 @@ def main():
             save(attempt/'result.json',result);start=time.perf_counter();stage='retrieval';stage_started=start;load_for_this_attempt=0
             torch.cuda.reset_peak_memory_stats()
             try:
-                assert time.time()<DEADLINE-240,'not enough authorized time for another question'
+                assert time.time()<runtime_limits.deadline_epoch-240,'not enough invocation/authorized time for another question'
                 t=time.perf_counter()
                 if oracle is not None:
                     pages=oracle[sample_id];assert 1<=len(pages)<=config['selected_regions'],'Oracle context exceeds Reader capacity; do not omit evidence'
@@ -215,16 +241,10 @@ def main():
                     if config.get('evidence_selection') in ('distinct_page_top2','distinct_page_top3') else hits[:config['selected_regions']])
                 selection_report=None
                 if config.get('question_source_selection'):
-                    from evidence_lab.bounded_selection import select_question_pages
-                    selected,selection_report=select_question_pages(question['question'],hits,config['selected_regions'])
-                    if backend is not None and selection_report['possible_missing_fields']:
-                        initial_hits=hits
-                        hits,additional=backend.search(question['question'],config['retrieval_route'],10)
-                        selected,after=select_question_pages(question['question'],hits,config['selected_regions'])
-                        selection_report={'initial':selection_report,'after_single_pool_expansion':after,
-                            'supplementary_retrieval_count':1,'initial_evidence_ids':[h['evidence_id'] for h in initial_hits],
-                            'expanded_top_k':10,'additional_details':additional,
-                            'possible_missing_fields':after['possible_missing_fields']}
+                    from evidence_lab.bounded_selection import acquire_question_sources
+                    hits,selected,selection_report=acquire_question_sources(question['question'],hits,
+                        backend,config['retrieval_route'],config['selected_regions'],
+                        qualification_acquisition=config.get('bounded_qualification_source_acquisition',False))
                 retrieval={'route':'oracle_source_page_diagnostic' if oracle else config['retrieval_route'],'hits':hits,'seconds':time.perf_counter()-t,
                            'selection':config.get('evidence_selection','rank_top2'),
                            'reference_labels_used_for_selection':False,'details':retrieval_details,
@@ -290,6 +310,13 @@ def main():
                             config.get('answer_source_ids') or raw_candidate.get('status')=='answered') else ''
                         result['raw_candidate_answer_for_isolated_evaluation']=raw_answer if isinstance(raw_answer,str) else ''
                     except json.JSONDecodeError:result['raw_candidate_answer_for_isolated_evaluation']=''
+                    if config.get('source_qualification_quote_candidates'):
+                        from evidence_lab.source_prose_quote import compose_qualification_quote_candidate
+                        stage='source_qualification_quotes';original_generated=generated
+                        generated=compose_qualification_quote_candidate(question['question'],generated,prepared,selection_report)
+                        if generated is not original_generated:
+                            save(attempt/'source-qualification-quote-candidate.json',generated)
+                            result['source_qualification_quote_record']=str(attempt/'source-qualification-quote-candidate.json')
                     if config.get('bounded_original_page_recovery'):
                         from evidence_lab.source_recovery import recover_empty_reader
                         stage='bounded_source_recovery';stage_started=time.perf_counter()
@@ -298,6 +325,33 @@ def main():
                             visual=visual,reader=reader,processor=native_processor,budget=budget,
                             config=config,output=attempt/'source-recovery',feature_search=feature_search)
                         result['bounded_source_recovery']=recovery
+                    if config.get('bounded_question_focus_recovery'):
+                        from evidence_lab.question_focus import recover_question_focus
+                        stage='bounded_question_focus_recovery'
+                        generated,prepared,focus_report=recover_question_focus(
+                            question['question'],generated,prepared,hits=hits,selected=selected,
+                            visual=visual,reader=reader,processor=native_processor,budget=budget,
+                            config=config,output=attempt/'question-focus',
+                            prior_recovery=result.get('bounded_source_recovery',{}))
+                        result['bounded_question_focus_recovery']=focus_report
+                    if config.get('native_complete_paragraph_quote_candidates'):
+                        from evidence_lab.native_paragraph_quote import compose_native_paragraph_quote
+                        stage='native_complete_paragraph_quotes';original_generated=generated
+                        generated=compose_native_paragraph_quote(question['question'],generated,prepared,
+                            result.get('bounded_question_focus_recovery',{}))
+                        if generated is not original_generated:
+                            save(attempt/'native-paragraph-quote-candidate.json',generated)
+                            result['native_paragraph_quote_record']=str(attempt/'native-paragraph-quote-candidate.json')
+                    if config.get('bounded_original_symbol_candidates'):
+                        from evidence_lab.source_symbol_table import compose_original_symbol_candidate
+                        stage='bounded_original_symbol_candidates'
+                        generated,symbol_report=compose_original_symbol_candidate(
+                            question['question'],generated,prepared,visual=visual,reader=reader,
+                            processor=native_processor,budget=budget,config=config,
+                            output=attempt/'original-symbols',prior_recovery={'actual_reader_calls':
+                                result.get('bounded_source_recovery',{}).get('actual_reader_calls',0)
+                                +result.get('bounded_question_focus_recovery',{}).get('actual_reader_calls',0)})
+                        result['bounded_original_symbol_candidates']=symbol_report
                     if config.get('source_parameter_field_candidates'):
                         from evidence_lab.source_calculation import compose_source_parameter_candidate
                         stage='source_parameter_fields'
@@ -314,6 +368,17 @@ def main():
                         if generated is not original_generated:
                             save(attempt/'source-period-candidate.json',generated)
                             result['source_period_candidate_record']=str(attempt/'source-period-candidate.json')
+                    if config.get('bounded_typed_diagram_candidates'):
+                        from evidence_lab.diagram_candidate import extract_diagram_candidate
+                        stage='bounded_typed_diagram_candidates'
+                        generated,prepared,diagram_report=extract_diagram_candidate(
+                            question['question'],generated,prepared,selected=selected,visual=visual,
+                            search=diagram_search,reader=reader,processor=native_processor,budget=budget,
+                            config=config,output=attempt/'diagram-nodes',prior_calls=
+                            result.get('bounded_source_recovery',{}).get('actual_reader_calls',0)
+                            +result.get('bounded_question_focus_recovery',{}).get('actual_reader_calls',0)
+                            +result.get('bounded_original_symbol_candidates',{}).get('attempted_transcription_calls',0))
+                        result['bounded_typed_diagram_candidates']=diagram_report
                     stage='semantic_support';stage_started=time.perf_counter()
                     support_class=QwenSupportVerifier
                     if config.get('fact_support'):
@@ -332,6 +397,7 @@ def main():
                             presentation_status='withheld_invalid_metric_substitution')
                     result['semantic_support_seconds']=time.perf_counter()-stage_started
                     result.update(final,completed=True,actual_reader_run=True)
+                    result['citation_sources']=final_citation_sources(result['citations'],prepared.citation_catalog)
             except Exception as exc:
                 result.update(status='failed',completed=True,failure_stage=stage,error={'type':type(exc).__name__,
                     'message':str(exc),'traceback':traceback.format_exc()},supported_answer=False,answer='',citations=[],

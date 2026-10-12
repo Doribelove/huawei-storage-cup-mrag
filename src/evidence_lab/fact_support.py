@@ -190,6 +190,28 @@ class QwenFactSupportVerifier(QwenSupportVerifier):
             period_plan=validate_period_candidate(question,validated,cited_catalog)
             if period_plan is not None:
                 report['source_period_fields_rechecked']=period_plan
+            from .source_prose_quote import validate_qualification_quote_candidate, quote_claim_groups
+            quote_plan=validate_qualification_quote_candidate(question,validated,cited_catalog)
+            if quote_plan is not None:
+                report['whole_source_quote_integrity_rechecked']=quote_plan
+            from .native_paragraph_quote import validate_native_paragraph_quote,native_quote_source_declaration
+            native_quote_plan=validate_native_paragraph_quote(question,validated,cited_catalog)
+            if native_quote_plan is not None:
+                if quote_plan is not None:raise ValueError('Ambiguous whole-source quotation contracts')
+                quote_plan=native_quote_plan
+                report['whole_native_paragraph_quote_integrity_rechecked']=native_quote_plan
+                report['unprojected_native_paragraph_source_records']={key:source['readable_viewport']
+                    for key,source in cited_catalog.items()}
+            from .source_symbol_table import validate_symbol_candidate
+            symbol_projection=validate_symbol_candidate(question,validated,cited_catalog)
+            if symbol_projection is not None:
+                report['source_symbol_pixels_rechecked']=symbol_projection
+            from .diagram_candidate import validate_diagram_candidate,diagram_claim_groups
+            diagram_plan=validate_diagram_candidate(question,validated,cited_catalog)
+            if diagram_plan is not None:
+                if quote_plan is not None or symbol_projection is not None:
+                    raise ValueError('Ambiguous diagram candidate contracts')
+                report['model_diagram_candidate_integrity_rechecked']=diagram_plan
             audit=deterministic_audit(question,candidate['answer'],cited_catalog)
             report['deterministic_source_audit']=audit
             if audit['applicable'] and not audit['passed']:
@@ -200,7 +222,11 @@ class QwenFactSupportVerifier(QwenSupportVerifier):
                 report['seconds']=time.perf_counter()-started
                 (directory/'result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
                 return report
-            claims=support_claim_groups(candidate,validated['diagnostic_candidate_output']);content=[];provenance=[]
+            claims=(quote_claim_groups(candidate['answer'],quote_plan,candidate['citations']) if quote_plan is not None
+                    else support_claim_groups(candidate,validated['diagnostic_candidate_output']))
+            if diagram_plan is not None:
+                claims=diagram_claim_groups(candidate,diagram_plan,candidate['citations'])
+            content=[];provenance=[]
             parameter_projection=parameter_source_projection(question,validated,cited_catalog)
             unit_records={key:source['readable_viewport'] for key,source in cited_catalog.items()
                 if source.get('readable_viewport',{}).get('native_unit_prose_plan')}
@@ -216,6 +242,10 @@ class QwenFactSupportVerifier(QwenSupportVerifier):
                 with Image.open(path) as image:
                     image.load();crop=image.crop(tuple(box));target=directory/f'citation-{index}.png';crop.save(target)
                 declared=source_support_declaration(index,citation,source,question,candidate['answer'],parameter_projection)
+                if native_quote_plan is not None:
+                    declared=native_quote_source_declaration(index,citation,source,native_quote_plan)
+                if symbol_projection is not None and symbol_projection['image_id']==citation['image_id']:
+                    declared['exact_original_symbol_binding']=symbol_projection
                 content.extend([{'type':'text','text':json.dumps(declared,ensure_ascii=False,separators=(',',':'))},
                                 {'type':'image','image':str(target)}])
                 provenance.append({**declared,'source_image_sha256':source['image']['sha256'],

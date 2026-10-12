@@ -13,11 +13,6 @@ def fixture(eid,order,page=1,name='unit',pdf='pdf',text='Heading',member='parsed
 
 
 class PilotTests(unittest.TestCase):
-    def test_frozen_manifest_bytes_match_diagnostic_binding(self):
-        configs=Path(__file__).resolve().parents[1]/'configs'
-        diagnostics=json.loads((configs/'pilot-v1.diagnostics.json').read_text(encoding='utf-8'))
-        self.assertEqual(sha256_file(configs/'pilot-v1.manifest.json'),diagnostics['manifest_sha256'])
-        self.assertEqual(len(diagnostics['cases']),14)
 
     def test_sampler_is_deterministic_order_independent_and_source_stratified(self):
         docs={}

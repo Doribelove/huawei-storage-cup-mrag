@@ -1,0 +1,4 @@
+# Actual already-observed dependency missing from the original client declaration.
+# Declaration only: no software installed, and requests sources are not vendored.
+requests==2.32.5
+# Other client packages are the existing vendor/client lock; GPU runtime is external.

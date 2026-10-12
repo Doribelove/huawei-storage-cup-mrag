@@ -1,0 +1,57 @@
+{
+  "selected_version": "r58",
+  "scope": "historical released-interface development30; not held out or official",
+  "denominator": 30,
+  "local_scores": {
+    "candidate": {
+      "correct": 18,
+      "denominator": 30,
+      "accuracy": 0.6,
+      "nonempty_predictions": 22,
+      "judge_failures": 0
+    },
+    "source_bound": {
+      "correct": 26,
+      "denominator": 30,
+      "accuracy": 0.8666666666666667,
+      "nonempty_predictions": 27,
+      "judge_failures": 0
+    },
+    "final": {
+      "correct": 26,
+      "denominator": 30,
+      "accuracy": 0.8666666666666667,
+      "nonempty_predictions": 26,
+      "judge_failures": 0
+    }
+  },
+  "source_counts": {
+    "complete_supported": 25,
+    "coverage_issue_missing_smoke_detection": 1,
+    "withheld": 4
+  },
+  "runtime_failed": 0,
+  "judge_failed": 0,
+  "historical_software_tests": 381,
+  "historical_tests_not_rerun_during_publication": true,
+  "performance": {
+    "client_search_time_s": 4017.86,
+    "query_time_sum_s": 4017.4938,
+    "query_time_mean_s": 133.91646,
+    "query_time_median_s": 121.3552,
+    "query_time_p95_s": 195.98551999999992,
+    "quantile_method": "linear interpolation, (n-1)*q",
+    "full_build_entrypoint_s": 906.8656937739579,
+    "full_build_worker_with_environment_check_s": 913.4267431820044,
+    "core_old_r1_batch_s": 1699.0525614520307,
+    "HTTP_query_scope": "Each request includes a fresh r58 process and cold model loads; client search_time also includes HTTP/write overhead",
+    "build_scope": "Input verification/import, corpus preparation, real BGE embedding/Nano index, native visual inventory/config; excludes previous MinerU parsing",
+    "official_baseline_times_known": false,
+    "official_score_computed": false
+  },
+  "independent_source_review": false,
+  "official_accuracy_established": false,
+  "private_per_case_records_excluded": true,
+  "acceptance_record_sha256": "9f18b5913afe35c1d1b32951ecaaa8111a031c2d32f85afc3650b19d601bb684",
+  "revised_delivery_real_GPU_smoke_performed": false
+}

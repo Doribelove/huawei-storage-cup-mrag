@@ -102,7 +102,7 @@ def choose_window(question, source, candidates, width, height):
             'scope':'same already selected verified PDF page; source viewport only, no semantic proof'}
 
 
-def plan_pdf_window(path, question, source, width, height, *, full_page_recovery=False,native_unit_prose_recovery=False):
+def plan_pdf_window(path, question, source, width, height, *, full_page_recovery=False,native_unit_prose_recovery=False,referenced_figure_context=False,native_paragraph_window=False,diagram_structure_view=False):
     import pdfplumber
     with pdfplumber.open(path) as pdf:
         page=pdf.pages[source['page']-1]
@@ -113,11 +113,28 @@ def plan_pdf_window(path, question, source, width, height, *, full_page_recovery
         if type(native_unit_prose_recovery) is not bool or (native_unit_prose_recovery and not full_page_recovery):
             raise ValueError('Unit prose recovery needs the existing full original-page recovery')
         paint_audit=None
-        if full_page_recovery:
+        if type(diagram_structure_view) is not bool or (diagram_structure_view and (full_page_recovery or referenced_figure_context or native_paragraph_window)):
+            raise ValueError('Diagram requires a separate complete original figure view')
+        if type(native_paragraph_window) is not bool or (native_paragraph_window and (full_page_recovery or referenced_figure_context)):
+            raise ValueError('Native paragraph view is separate from other recovery views')
+        if full_page_recovery or native_paragraph_window:
             from .native_paint import form_bound_page
             page,unfiltered,paint_audit=form_bound_page(page)
         words=page.extract_words()
         if len(words)>15000: raise ValueError('Native source word budget exceeded')
+        if diagram_structure_view:
+            from .diagram_window import diagram_window
+            return diagram_window(question,source,words,width,height)
+        if native_paragraph_window:
+            from .source_paragraph import paragraph_window
+            plan=paragraph_window(question,source,words,width,height)
+            plan['native_paint_filter']=paint_audit
+            return plan
+        if type(referenced_figure_context) is not bool or (referenced_figure_context and full_page_recovery):
+            raise ValueError('Linked-figure view must be separate from whole-page recovery')
+        if referenced_figure_context:
+            from .referenced_figure import linked_figure_window
+            return linked_figure_window(question,source,words,width,height)
         def nearby(box, margin=28):
             return ' '.join(w['text'] for w in words if w['x0']>=box[0]-margin
                 and w['x1']<=box[2]+margin and w['top']>=box[1]-margin and w['bottom']<=box[3]+margin)

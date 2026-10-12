@@ -81,11 +81,17 @@ def compose_source_period_candidate(question, generated, prepared):
 
 
 def _compose_source_candidate(generated, prepared, candidate, *, field='source_calculated_candidate',
-                              projection_origin='source-calculated candidate; original Reader bytes separately preserved'):
+                              projection_origin='source-calculated candidate; original Reader bytes separately preserved',
+                              native_quote_question=None):
     from .reader import bind_answer_source_ids
-    bound = bind_answer_source_ids(json.dumps(
-        {'answer':candidate['answer'], 'evidence_ids':candidate['evidence_ids']},
-        ensure_ascii=False), prepared)
+    if native_quote_question is None:
+        bound = bind_answer_source_ids(json.dumps(
+            {'answer':candidate['answer'], 'evidence_ids':candidate['evidence_ids']},
+            ensure_ascii=False), prepared)
+    else:
+        from .native_paragraph_quote import FIELD,bind_native_paragraph_quote
+        if field!=FIELD:raise ValueError('Native quote binding requires its explicit application contract')
+        bound=bind_native_paragraph_quote(native_quote_question,candidate,prepared)
     composed = copy.deepcopy(generated)
     composed.update(bound)
     for raw_field in ('raw_output_for_validation', 'generated_token_ids', 'input_token_ids',

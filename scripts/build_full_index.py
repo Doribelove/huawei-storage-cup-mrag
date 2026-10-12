@@ -1,40 +1,54 @@
-"""Resumable genuine CPU BGE build. This process has no question or QA input."""
+"""Resumable pinned FP32 BGE source-index build, from already parsed source regions."""
 from __future__ import annotations
 import argparse
 from collections import defaultdict
 import hashlib
 import json
 from pathlib import Path
+import resource
 import socket
+import sys
 import time
 from unittest.mock import patch
 import uuid
 import numpy as np
 import psutil
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
 from evidence_lab.cli import load_evidence
 from evidence_lab.retrieval_policy import CandidatePolicy
 from evidence_lab.safe_data import reject_answer_fields,sha256_file
 from evidence_lab.semantic import LocalBGE,DenseIndex,valid_vector
 
 
-def memory():
+def memory(torch=None):
     value=psutil.Process().memory_info()
-    return {'rss_bytes':value.rss,'peak_process_working_set_bytes':getattr(value,'peak_wset',None)}
+    result={'rss_bytes':value.rss,'peak_process_working_set_bytes':getattr(value,'peak_wset',None),
+            'process_lifetime_peak_RSS_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
+            'whole_machine_memory_pressure_bytes':psutil.virtual_memory().total-psutil.virtual_memory().available}
+    if torch is not None and torch.cuda.is_initialized():
+        result.update(cuda_allocated_bytes=torch.cuda.memory_allocated(),cuda_reserved_bytes=torch.cuda.memory_reserved(),
+                      cuda_peak_allocated_bytes=torch.cuda.max_memory_allocated(),cuda_peak_reserved_bytes=torch.cuda.max_memory_reserved(),
+                      unified_memory_note='RSS and CUDA describe overlapping AGX memory; do not add them')
+    return result
 
 
 def main():
+    entry_started=time.perf_counter()
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--freeze-dir',type=Path,required=True)
     parser.add_argument('--model-dir',type=Path,required=True)
     parser.add_argument('--original-corpus',type=Path,required=True)
     parser.add_argument('--resume',action='store_true')
+    parser.add_argument('--device',choices=('cpu','cuda'),default='cpu')
+    parser.add_argument('--expected-document-count',type=int,default=100)
     parser.add_argument('--max-build-seconds',type=float,default=7200)
     args=parser.parse_args()
     if not 60<=args.max_build_seconds<=14400: raise ValueError('Full build wall budget must be60..14400s')
+    if not 1<=args.expected_document_count<=100: raise ValueError('Source document budget must be1..100')
     out=args.freeze_dir;manifest_path=out/'full-manifest.json'
     manifest=json.loads(manifest_path.read_text(encoding='utf-8'));reject_answer_fields(manifest)
     manifest_sha=sha256_file(manifest_path);source=out/'regions.jsonl';source_sha=sha256_file(source)
-    if manifest['document_count']!=100 or source_sha!=manifest['frozen_corpus_sha256']:
+    if manifest['document_count']!=args.expected_document_count or source_sha!=manifest['frozen_corpus_sha256']:
         raise ValueError('Frozen full source manifest mismatch')
     original_sha=sha256_file(args.original_corpus)
     if original_sha!=manifest['source_corpus_sha256']: raise ValueError('Original source corpus mismatch')
@@ -44,6 +58,9 @@ def main():
     bydoc=defaultdict(list)
     for row in rows:
         if policy.accepts(row): bydoc[row['document_name']].append(row)
+    documents_by_name={d['name']:d for d in manifest['documents']}
+    if len(documents_by_name)!=args.expected_document_count or set(documents_by_name)!=set(bydoc):
+        raise ValueError('Frozen document names/coverage mismatch')
     path=out/'full.nano.json'
     if path.exists(): raise ValueError('Completed full index already exists; no overwrite')
     checkpoints=out/'document-checkpoints';checkpoints.mkdir(exist_ok=True)
@@ -57,7 +74,7 @@ def main():
         json.dump({'pid':psutil.Process().pid,'token':token,'manifest_sha256':manifest_sha},stream)
     try:
         with patch.object(socket.socket,'connect',side_effect=RuntimeError('Full build prohibits network')) as network:
-            started=time.perf_counter();model=LocalBGE(args.model_dir)
+            started=time.perf_counter();model=LocalBGE(args.model_dir,device=args.device)
             model_load_seconds=time.perf_counter()-started
             print(json.dumps({'stage':'full_model_ready','model_load_seconds':round(model_load_seconds,3),
                               'expected_chunks':manifest['expected_dense_chunks'],'cpu_threads':8}),flush=True)
@@ -90,7 +107,7 @@ def main():
                     item={'name':name,'searchable_regions':len(bydoc[name]),'chunks':len(encoded),
                           'source_tokens':int(stats['source_tokens']),'tokenization_ms':round(stats['tokenization_ms'],3),
                           'embedding_ms':round(stats['embedding_ms'],3),
-                          'source_encoding_seconds':round(time.perf_counter()-doc_started,3),**memory()}
+                          'source_encoding_seconds':round(time.perf_counter()-doc_started,3),**memory(model.torch)}
                     matrix=np.stack([c['__vector__'] for c in encoded]).astype(np.float32)
                     np.save(vectors,matrix,allow_pickle=False)
                     saved={'manifest_sha256':manifest_sha,'model_identity':model.identity,
@@ -108,9 +125,14 @@ def main():
                 print(json.dumps({'stage':'document_committed',**item,'documents_done':len(documents),'total_chunks':len(chunks)}),flush=True)
             encoding_wall=time.perf_counter()-build_started
             if len(chunks)!=manifest['expected_dense_chunks']: raise ValueError('Full chunk coverage mismatch')
-        started=time.perf_counter();index=DenseIndex(path,rows,model.identity,chunks,source_tokenizer=model.tokenizer)
+            started=time.perf_counter();index=DenseIndex(path,rows,model.identity,chunks,source_tokenizer=model.tokenizer)
             serialization_seconds=time.perf_counter()-started
-            report={'complete':True,'kind':'Genuine pinned full100-PDF CPU source embedding build; no QA inputs',
+            report={'complete':True,'kind':'Genuine pinned FP32 source embedding build; no QA inputs',
+                    'timing_boundary':'Already parsed frozen source regions through embedding and NanoVectorDB persistence; PDF parsing and source-freeze preparation excluded',
+                    'device':args.device,'expected_document_count':args.expected_document_count,
+                    'build_entry_sha256':sha256_file(Path(__file__)),
+                    'embedding_implementation_path':str(Path(sys.modules[LocalBGE.__module__].__file__).resolve()),
+                    'embedding_implementation_sha256':sha256_file(Path(sys.modules[LocalBGE.__module__].__file__)),
                     'manifest_sha256':manifest_sha,'frozen_corpus_sha256':source_sha,'original_corpus_sha256':original_sha,
                     'model_identity':model.identity,'document_count':len(documents),'indexed_documents':len(index.indexed_documents),
                     'source_regions':len(rows),'searchable_regions':len(policy.searchable()),'dense_chunks':index.chunk_count,
@@ -120,8 +142,9 @@ def main():
                     'index_sha256':sha256_file(path),'index_bytes':path.stat().st_size,'old_index_vectors_reused':False,
                     'qa_questions_or_answers_read':False,'source_corpus_unchanged':sha256_file(source)==source_sha,
                     'original_corpus_unchanged':sha256_file(args.original_corpus)==original_sha,
-                    'socket_connect_attempts':network.call_count,'paid_api_cost':0,**memory()}
-            if network.call_count or not report['source_corpus_unchanged'] or not report['original_corpus_unchanged'] or len(index.indexed_documents)!=100:
+                    'socket_connect_attempts':network.call_count,'paid_api_cost':0,
+                    'entry_to_persist_seconds':round(time.perf_counter()-entry_started,3),**memory(model.torch)}
+            if network.call_count or not report['source_corpus_unchanged'] or not report['original_corpus_unchanged'] or len(index.indexed_documents)!=args.expected_document_count:
                 raise ValueError('Full build offline/source/coverage invariant failed')
             (out/'full-build-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
             (out/'full-build-checkpoint.json').write_text(json.dumps({**summary,'complete':True,'index_sha256':report['index_sha256']},indent=2)+'\n',encoding='utf-8')

@@ -70,8 +70,12 @@ def recover_empty_reader(question, generated, prepared, *, hits, selected,
     kind=_empty_recovery_kind(generated,prepared,config.get('bounded_empty_known_reference_recovery',False),
                               require_crop=False)
     proposal=None
+    figure_link_report=None
     if kind and config.get('bounded_native_image_source_recovery') and feature_search is not None:
         proposal=feature_search.supplementary_source(question,selected)
+    if kind and proposal is None and config.get('bounded_referenced_figure_recovery'):
+        from .referenced_figure import linked_figure_source
+        proposal,figure_link_report=linked_figure_source(hits,selected,visual.browser.records)
     if proposal is None:
         kind=_empty_recovery_kind(generated,prepared,config.get('bounded_empty_known_reference_recovery',False))
     report={'schema':'bounded-original-source-recovery-v3',
@@ -83,6 +87,8 @@ def recover_empty_reader(question, generated, prepared, *, hits, selected,
             'original_failure_reclassified_as_valid':False,
             'original_reader_output_sha256':hashlib.sha256(
                 generated.get('raw_output_for_validation','').encode()).hexdigest()}
+    if figure_link_report is not None:
+        report['literal_figure_link_search']=figure_link_report
     if not report['eligible']:
         return generated,prepared,report
     from .reader import prepare_reader_visual_inputs
@@ -101,6 +107,10 @@ def recover_empty_reader(question, generated, prepared, *, hits, selected,
             report.update(retrieval_source_pages_changed=True,acquisition_proposal=proposal,
                 recovery_route='rare_native_image_cues',
                 reason=f'{kind}; one new original image region with rare literal query cues; new candidate requires independent binding and support')
+            if proposal.get('route')=='literal_retrieved_body_figure_link_v1':
+                report.update(retrieval_source_pages_changed=False,new_source_region_selected=True,
+                    recovery_route='literal_body_figure_link',
+                    reason=f'{kind}; explicit retrieved body reference identifies one original figure on an already selected page; preserve whole figure and actual caption; one independently bound candidate')
         for i,hit in enumerate(recovery_selected):
             eid=hit['evidence_id'];old=old_by_parent.get(eid)
             target=directory/f'evidence-{i+1}'
@@ -109,6 +119,8 @@ def recover_empty_reader(question, generated, prepared, *, hits, selected,
                 raise ValueError('Supplementary original source proof failed')
             _save(directory/f'source-proof-{i+1}.json',proof)
             prose_request={'native_unit_prose_recovery':True} if config.get('bounded_native_unit_prose_recovery',False) and proposal is None else {}
+            if proposal and proposal.get('route')=='literal_retrieved_body_figure_link_v1':
+                prose_request={'referenced_figure_context':True}
             binding=visual.prepare_region(eid,target,dpi=config['render_dpi'],
                 readable_question=question,full_page_recovery=proposal is None,**prose_request)
             if old and (binding['source']['doc_sha256'],binding['source']['page'])!=(old['doc_sha256'],old['page']):
@@ -158,9 +170,14 @@ def recover_empty_reader(question, generated, prepared, *, hits, selected,
         if not any(c['actual_pixels_changed'] for c in changes):
             report['status']='no_new_pixels_no_reader_call'
             return original,prepared,report
+        placement={}
+        if (proposal and proposal.get('route')=='literal_retrieved_body_figure_link_v1'
+                and config.get('linked_figure_question_after_images',False)):
+            placement={'question_after_images':config['linked_figure_question_after_images']}
+            report['question_placement']='unchanged_question_after_all_source_images'
         recovered=prepare_reader_visual_inputs(question,recovery_hits,visual=visual,
             primary_artifacts=artifacts,tokenizer=reader.context_tokenizer,budget=budget,
-            max_new_tokens=config['max_new_tokens'],prompt_projection=config['prompt_projection'])
+            max_new_tokens=config['max_new_tokens'],prompt_projection=config['prompt_projection'],**placement)
         _save(directory/'prepared-context.json',{'messages':recovered.messages,
               'image_catalog':recovered.citation_catalog,'source_preparation':recovered.report})
         native=prepare_native_visual_inputs(recovered,processor,budget=budget,

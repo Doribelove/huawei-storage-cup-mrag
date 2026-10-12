@@ -18,6 +18,31 @@ TOKENIZER_SHA256='21106b6d7dab2952c1d496fb21d5dc9db75c28ed361a05f5020bbba27810dd
 _LOADED_BGE = WeakKeyDictionary()
 _QUALIFIED_QUERY_RUNTIMES = WeakKeyDictionary()
 
+def runtime_recipe_differences(index_identity: dict, query_identity: dict) -> dict:
+    """Check eligibility for numerical qualification, never establish qualification.
+
+    Keep the original CPU route. A CUDA FP32/eager index with TF32 disabled may
+    also be checked by the pinned CPU query encoder. Weight/tokenizer/pooling,
+    precision and source-window differences remain forbidden.
+    """
+    differences = {key: {'index': index_identity.get(key), 'query': query_identity.get(key)}
+                   for key in set(index_identity) | set(query_identity)
+                   if index_identity.get(key) != query_identity.get(key)}
+    allowed = {'torch_version', 'threads'}
+    if index_identity.get('device') == 'cuda' and query_identity.get('device') == 'cpu':
+        if (index_identity.get('cuda_matmul_allow_tf32') is not False
+                or not isinstance(index_identity.get('cuda_device_name'), str)
+                or not index_identity['cuda_device_name'].strip()
+                or index_identity.get('dtype') != 'float32'
+                or query_identity.get('dtype') != 'float32'
+                or index_identity.get('attention') != 'eager'
+                or query_identity.get('attention') != 'eager'):
+            raise ValueError('CUDA index qualification requires FP32 eager with TF32 disabled')
+        allowed |= {'device', 'cuda_matmul_allow_tf32', 'cuda_device_name'}
+    if set(differences) - allowed:
+        raise ValueError('Index/query embedding recipe differs: '+str(sorted(differences)))
+    return differences
+
 def _live_bge(model):
     state = _LOADED_BGE.get(model)
     return bool(state and model.model is state[0] and model.tokenizer is state[1]
@@ -43,9 +68,10 @@ def token_windows(count:int,capacity:int,overlap:int)->list[tuple[int,int]]:
 
 
 class LocalBGE:
-    def __init__(self,model_dir:Path,max_length:int=512,overlap:int=64,threads:int=8):
+    def __init__(self,model_dir:Path,max_length:int=512,overlap:int=64,threads:int=8,*,device:str='cpu'):
         if not 16<=max_length<=512 or not 0<=overlap<max_length-2 or not 1<=threads<=16:
-            raise ValueError('CPU prototype budget exceeded')
+            raise ValueError('Local BGE token/thread budget exceeded')
+        if device not in ('cpu','cuda'): raise ValueError('Use an explicit CPU or CUDA BGE device')
         for name,expected in [('model.safetensors',SAFE_WEIGHTS_SHA256),('tokenizer.json',TOKENIZER_SHA256)]:
             if sha256_file(model_dir/name)!=expected: raise ValueError(f'Pinned local file mismatch: {name}')
         for name,size,expected in [('config.json',687,'e6eda1c72da8f9dc30fdd9b69c73d35af3b7a7ad'),
@@ -63,22 +89,28 @@ class LocalBGE:
         import torch
         from transformers import AutoModel,AutoTokenizer
         self.torch=torch;torch.set_num_threads(threads)
+        if device=='cuda':
+            if not torch.cuda.is_available(): raise ValueError('Requested CUDA BGE is unavailable')
+            if torch.backends.cuda.matmul.allow_tf32: raise ValueError('CUDA FP32 comparison requires TF32 disabled')
         self.tokenizer=AutoTokenizer.from_pretrained(model_dir,local_files_only=True,trust_remote_code=False,use_fast=True)
         self.model,loading=AutoModel.from_pretrained(model_dir,local_files_only=True,trust_remote_code=False,
             use_safetensors=True,output_loading_info=True,dtype=torch.float32,attn_implementation='eager')
         if loading['missing_keys'] or loading['unexpected_keys'] or loading['mismatched_keys'] or loading['error_msgs']:
             raise ValueError(f'Model state mismatch: {loading}')
+        self.model.to(device=device)
         self.model.eval();self.model.requires_grad_(False)
         if self.model.config.hidden_size!=1024: raise ValueError('Unexpected model dimension')
         self.max_length,self.overlap=max_length,overlap
         self.identity={'model_id':MODEL_ID,'revision':REVISION,'source_weights_sha256':SOURCE_WEIGHTS_SHA256,
             'loaded_safetensors_sha256':SAFE_WEIGHTS_SHA256,'tokenizer_sha256':TOKENIZER_SHA256,
             'dimension':1024,'pooling':'last_hidden_state[:,0] (CLS)','normalization':'L2',
-            'device':'cpu','dtype':'float32','max_length':max_length,'overlap_tokens':overlap,
+            'device':device,'dtype':'float32','max_length':max_length,'overlap_tokens':overlap,
             'query_instruction':None,'trust_remote_code':False,'local_files_only':True,
             'torch_version':torch.__version__,'threads':threads,'batch_size':1,'attention':'eager'}
-        if any(p.device.type != 'cpu' or p.dtype != torch.float32 for p in self.model.parameters()):
-            raise ValueError('Qualified BGE runtime must actually use CPU FP32')
+        if device=='cuda':
+            self.identity.update(cuda_matmul_allow_tf32=False,cuda_device_name=torch.cuda.get_device_name(0))
+        if any(p.device.type != device or p.dtype != torch.float32 for p in self.model.parameters()):
+            raise ValueError('BGE actual device/FP32 parameter contract mismatch')
         _LOADED_BGE[self] = (self.model, self.tokenizer, json.dumps(self.identity, sort_keys=True))
 
     def _encode_ids(self,ids:list[int])->np.ndarray:
@@ -86,7 +118,8 @@ class LocalBGE:
         if torch.get_num_threads()!=self.identity['threads']: torch.set_num_threads(self.identity['threads'])
         ids=self.tokenizer.build_inputs_with_special_tokens(ids)
         if len(ids)>self.max_length: raise ValueError('Encoding exceeds token budget; truncation is forbidden')
-        inputs={'input_ids':torch.tensor([ids],dtype=torch.long),'attention_mask':torch.ones((1,len(ids)),dtype=torch.long)}
+        inputs={'input_ids':torch.tensor([ids],dtype=torch.long,device=self.identity['device']),
+                'attention_mask':torch.ones((1,len(ids)),dtype=torch.long,device=self.identity['device'])}
         with torch.inference_mode():
             hidden=self.model(**inputs).last_hidden_state[:,0]
             vector=torch.nn.functional.normalize(hidden,p=2,dim=1)[0].cpu().numpy()
@@ -224,21 +257,17 @@ class DenseIndex:
                 'source_char_span':list(expected[2]),'tokens_with_specials':expected[3]}
 
     def qualify_query_runtime(self, model, sample_count: int = 8) -> dict:
-        """Re-encode original chunks before accepting a different observed CPU runtime.
+        """Re-encode source chunks before accepting an eligible observed runtime.
 
-        Stored build identity stays unchanged. Only torch version and thread count
-        may differ; every embedding/preprocessing/weight/precision field must match.
+        Stored build identity stays unchanged. CPU runtime differences or a CUDA
+        FP32/eager-to-CPU route require the same strict live numerical checks.
         A saved report or caller-provided pass flag never authorizes the route.
         """
         if not isinstance(model, LocalBGE) or not _live_bge(model):
             raise ValueError('Runtime qualification requires genuinely loaded pinned BGE')
         if not 3 <= sample_count <= 12 or not hasattr(self, '_stored_matrix'):
             raise ValueError('Qualification requires an existing bounded source index')
-        differences = {key: {'index': self.identity.get(key), 'query': model.identity.get(key)}
-                       for key in set(self.identity) | set(model.identity)
-                       if self.identity.get(key) != model.identity.get(key)}
-        if set(differences) - {'torch_version', 'threads'}:
-            raise ValueError('Index/query embedding recipe differs: '+str(sorted(differences)))
+        differences = runtime_recipe_differences(self.identity, model.identity)
         if sha256_file(self._storage_path) != self._storage_sha256:
             raise ValueError('Index bytes changed before runtime qualification')
         norms = np.linalg.norm(self._stored_matrix, axis=1)

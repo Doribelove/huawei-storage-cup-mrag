@@ -483,7 +483,8 @@ def native_window_projection(viewport, original):
 def assemble_visual_reader_context(question: str, retrieved_hits: list[dict], *, visual,
         primary_artifacts: dict[str, Path], table_context_artifacts: dict[str, Path] | None = None,
         tokenizer: PinnedReaderTokenizer | None = None, budget: ReaderBudget = ReaderBudget(),
-        max_new_tokens: int = 256, prompt_projection: str = 'original_whole_regions_v1') -> VisualReaderContext:
+        max_new_tokens: int = 256, prompt_projection: str = 'original_whole_regions_v1',
+        question_after_images: bool = False) -> VisualReaderContext:
     """Verified retrieval -> local typed image messages; generation is always closed here."""
     import math
     from PIL import Image
@@ -500,6 +501,8 @@ def assemble_visual_reader_context(question: str, retrieved_hits: list[dict], *,
     compact_prompt = prompt_projection != 'original_whole_regions_v1'
     compact_citations = prompt_projection == 'compact_table_cells_and_citations_v2'
     answer_ids = prompt_projection == 'answer_source_ids_v3'
+    if type(question_after_images) is not bool or (question_after_images and not answer_ids):
+        raise ValueError('Question placement requires a boolean and the answer-source-ID projection')
     if isinstance(max_new_tokens, bool) or not isinstance(max_new_tokens, int) or not 32 <= max_new_tokens <= 512:
         raise ValueError('Visual Reader generation reserve exceeded')
     if not isinstance(primary_artifacts, dict) or not 1 <= len(primary_artifacts) <= min(3 if compact_prompt else 2, budget.max_regions):
@@ -548,6 +551,10 @@ def assemble_visual_reader_context(question: str, retrieved_hits: list[dict], *,
             'binding_id': binding['binding_id'], 'image_sha256': asset['sha256']})[:24]
         if identifier in catalog: raise ValueError('Duplicate visual input identity')
         geometry = binding['geometry']; cropped = asset['file'] == 'crop.png'
+        if binding.get('readable_viewport',{}).get('native_paragraph_window'):
+            # A parsed paragraph may span physical pages. Only actual words in
+            # this verified native window may serve as its page-local quote.
+            quote_text=binding['readable_viewport']['native_visible_text']
         record = {'image_id': identifier, 'image_index': len(catalog)+1, 'role': role,
             'parent_evidence_id': parent['evidence_id'], 'primary_retrieval_rank': indexed[parent['evidence_id']][0]+1,
             'doc_sha256': binding['source']['doc_sha256'], 'document_name': binding['source']['document_name'],
@@ -567,6 +574,10 @@ def assemble_visual_reader_context(question: str, retrieved_hits: list[dict], *,
             'citation_support': 'primary_source_observation' if role == 'primary_retrieved_region' else 'unassigned_supplementary_observation'}
         if binding.get('readable_viewport'):
             record['readable_viewport']=binding['readable_viewport']
+        if binding.get('readable_viewport',{}).get('native_paragraph_window'):
+            # Audit-only original-source identity; absent from model metadata.
+            record['local_original_pdf_path']=str(visual.browser.verified_pdf(parent['document_name']))
+            record['native_paragraph_original_bbox_top_left_points']=list(parent['bbox_points_estimate'])
         catalog[identifier] = record
         # The complete hash/geometry catalog is retained for audit. Model text only
         # needs identity, provenance and role; avoid spending tokens on PNG hashes.
@@ -690,6 +701,14 @@ def assemble_visual_reader_context(question: str, retrieved_hits: list[dict], *,
                 'Never rename a different row merely because its numbers seem plausible. '
                 'Cross-page table/header continuity is unverified. Finish the JSON within 512 tokens. '
                 'The application binds source references separately; your answer remains an unverified candidate.')
+    if question_after_images:
+        # Keep every original source field and typed image; relocate only the
+        # unchanged question before template/token/source-integrity registration.
+        payload = json.loads(content[0]['text'])
+        if payload.pop('question') != question:
+            raise ValueError('Question changed during source projection')
+        content[0]['text'] = json.dumps(payload, ensure_ascii=False, separators=(',', ':'))
+        content.append({'type': 'text', 'text': 'Question: ' + question})
     text_characters = len(messages[0]['content'])+sum(len(item['text']) for item in content if item['type'] == 'text')
     if text_characters > budget.max_characters: raise ValueError('Whole multimodal text/metadata exceeds preparation character budget')
     diagnostic = {'status': 'pinned_tokenizer_not_supplied', 'placeholder_prompt_tokens': None,
@@ -736,6 +755,8 @@ def assemble_visual_reader_context(question: str, retrieved_hits: list[dict], *,
         'original_source_files_modified': False,
         'ready_for_reader': False, 'token_budget_verified': False, 'vision_inference_performed': False,
         'answer_generated': False, 'supported_answer': False}
+    if question_after_images:
+        report['preparation']['question_placement'] = 'unchanged_question_after_all_source_images'
     result = VisualReaderContext(messages, catalog, report)
     _PREPARED_VISUAL_CONTEXTS[result] = _PreparedVisualContext(_visual_payload_hash(result), tuple(sorted(files.items())))
     return result

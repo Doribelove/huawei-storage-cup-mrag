@@ -86,7 +86,7 @@ class VisualEvidence:
         return path, doc, document_name, page, row, proof
 
     def _build(self, *, evidence_id=None, document_name=None, page=None, dpi=100, readable_question=None,
-            full_page_recovery=False,native_unit_prose_recovery=False):
+            full_page_recovery=False,native_unit_prose_recovery=False,referenced_figure_context=False,native_paragraph_window=False,diagram_structure_view=False):
         if isinstance(dpi, bool) or not isinstance(dpi, int) or not 36 <= dpi <= 144:
             raise ValueError('Visual render DPI must be 36..144')
         path, doc, name, number, row, proof = self._source(evidence_id, document_name, page)
@@ -105,13 +105,25 @@ class VisualEvidence:
             raise ValueError('Recovery needs a boolean flag and the original question')
         if type(native_unit_prose_recovery) is not bool or (native_unit_prose_recovery and not full_page_recovery):
             raise ValueError('Native unit prose is restricted to full original-page recovery')
+        if (type(native_paragraph_window) is not bool or (native_paragraph_window and
+                (readable_question is None or full_page_recovery or referenced_figure_context))):
+            raise ValueError('Native paragraph needs a separate original-source question view')
+        if (type(referenced_figure_context) is not bool
+                or (referenced_figure_context and (readable_question is None or full_page_recovery))):
+            raise ValueError('Linked figure requires a separate original-source question view')
+        if (type(diagram_structure_view) is not bool or (diagram_structure_view and
+                (readable_question is None or full_page_recovery or referenced_figure_context or native_paragraph_window))):
+            raise ValueError('Diagram view requires a separate original figure request')
         if readable_question is not None:
             if row is None: raise ValueError('Readable window must retain an actual retrieved source')
             if rotation == 0 and cropbox == media and media[:2] == [0.0,0.0]:
                 from .readable_region import plan_pdf_window
                 readable=plan_pdf_window(path,readable_question,row,media[2],media[3],
-                    full_page_recovery=full_page_recovery,native_unit_prose_recovery=native_unit_prose_recovery)
+                    full_page_recovery=full_page_recovery,native_unit_prose_recovery=native_unit_prose_recovery,
+                    referenced_figure_context=referenced_figure_context,native_paragraph_window=native_paragraph_window,diagram_structure_view=diagram_structure_view)
             else:
+                if referenced_figure_context or native_paragraph_window or diagram_structure_view:
+                    raise ValueError('Linked-figure view has unsupported original page transform')
                 readable={'status':'full_page_fallback','question':readable_question,
                     'reason':'unsupported_native_window_page_transform','association_verified':False}
             dpi=readable.get('dpi',100)
@@ -248,9 +260,10 @@ class VisualEvidence:
         return binding, files
 
     def prepare_region(self, evidence_id: str, output: Path, *, dpi=100, readable_question=None,
-            full_page_recovery=False,native_unit_prose_recovery=False):
+            full_page_recovery=False,native_unit_prose_recovery=False,referenced_figure_context=False,native_paragraph_window=False,diagram_structure_view=False):
         return self._save(output, evidence_id=evidence_id, dpi=dpi, readable_question=readable_question,
-            full_page_recovery=full_page_recovery,native_unit_prose_recovery=native_unit_prose_recovery)
+            full_page_recovery=full_page_recovery,native_unit_prose_recovery=native_unit_prose_recovery,
+            referenced_figure_context=referenced_figure_context,native_paragraph_window=native_paragraph_window,diagram_structure_view=diagram_structure_view)
 
     def prepare_page(self, name: str, page: int, output: Path, *, dpi=100):
         return self._save(output, document_name=name, page=page, dpi=dpi)
@@ -275,7 +288,10 @@ class VisualEvidence:
             document_name=source['document_name'], page=source['page'], dpi=stored['render']['dpi_at_user_unit1'],
             readable_question=stored.get('readable_viewport',{}).get('question'),
             full_page_recovery=stored.get('readable_viewport',{}).get('full_page_recovery',False),
-            native_unit_prose_recovery=stored.get('readable_viewport',{}).get('native_unit_prose_recovery',False))
+            native_unit_prose_recovery=stored.get('readable_viewport',{}).get('native_unit_prose_recovery',False),
+            referenced_figure_context=stored.get('readable_viewport',{}).get('referenced_figure_context',False),
+            native_paragraph_window=stored.get('readable_viewport',{}).get('native_paragraph_window',False),
+            diagram_structure_view=stored.get('readable_viewport',{}).get('diagram_structure_view',False))
         checks = {'source_geometry_manifest_reproduced': expected == stored,
                   'page_png_bytes_reproduced': (output/'page.png').read_bytes() == files['page.png'],
                   'crop_png_bytes_reproduced': ((output/'crop.png').read_bytes() == files['crop.png'])
