@@ -14,7 +14,12 @@ import sys
 import time
 
 PROJECT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT / 'vendor'))
+import importlib.util
+_dependency_spec = importlib.util.spec_from_file_location(
+    '_mrag_release_dependencies', PROJECT/'rag-anything-experiments/dependency_loader.py')
+_dependency_module = importlib.util.module_from_spec(_dependency_spec)
+_dependency_spec.loader.exec_module(_dependency_module)
+_dependency_module.configure_dependencies(PROJECT)
 sys.path.insert(0, str(PROJECT / 'src'))
 
 

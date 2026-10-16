@@ -1,0 +1,74 @@
+{
+  "schema": "r58-source-publication-validation-v1",
+  "checked_utc": "2026-10-16T02:52:36.880325+00:00",
+  "source_selection": "User-confirmed final r58 website ZIP; no API candidate imported",
+  "software_tests": {
+    "command": "python -B scripts/run_tests.py",
+    "tests": 385,
+    "seconds": 24.692,
+    "passed": true,
+    "environment": "Existing Lenovo Windows Python 3.12 test environment with preinstalled non-model dependencies; writable task temporary directory and localhost permission",
+    "log_sha256": "168d31003984ad7fdaa47a6e8bf7156544fd4c11cd951274264da2f806265018",
+    "model_inference_performed": false,
+    "retry_history": [
+      {
+        "attempt": 1,
+        "tests": 385,
+        "errors": 142,
+        "reason": "Sandbox redirected default temporary directory was not writable."
+      },
+      {
+        "attempt": 2,
+        "tests": 385,
+        "errors": 2,
+        "reason": "Task temporary directory fixed; sandbox denied localhost HTTP sockets."
+      },
+      {
+        "attempt": 3,
+        "tests": 385,
+        "errors": 0,
+        "reason": "Same code and assertions; writable task temporary directory and permitted localhost execution."
+      }
+    ]
+  },
+  "python_syntax": {
+    "files": 151,
+    "passed": true
+  },
+  "source_hash_check": {
+    "exported_files": 186,
+    "hash_errors": [],
+    "core_src_files": 63,
+    "core_source_bytes_match_confirmed_zip": true
+  },
+  "package_checks": {
+    "website_crc_passed": true,
+    "full_crc_passed": true,
+    "common_nonmanifest_files_identical": 1909,
+    "website_manifest_files": 1909,
+    "full_manifest_files": 3929,
+    "manifest_hash_errors": 0
+  },
+  "publication_scan": {
+    "files_checked": 212,
+    "known_secret_or_private_path_findings": [],
+    "forbidden_artifacts": [],
+    "scope": "Known private path markers, common key/token forms, filename/artifact classes and manual review of examples/configuration; not a claim of exhaustive secret detection"
+  },
+  "relative_link_check": {
+    "links_checked": 32,
+    "passed_after_this_report_written": true
+  },
+  "visual_checks": [
+    "architecture-r58.png inspected",
+    "r58-http-log.png inspected",
+    "finance-evidence-summary.png inspected",
+    "energy-source-p13-excerpt.png inspected"
+  ],
+  "selected_case_values_match_original_review": true,
+  "historical_metrics_unchanged": true,
+  "new_gpu_build_or_query": false,
+  "new_benchmark_or_judge": false,
+  "competition_submission_performed": false,
+  "remote_push_verification": "Performed after this committed record; final commit and remote resource checks are reported separately."
+}

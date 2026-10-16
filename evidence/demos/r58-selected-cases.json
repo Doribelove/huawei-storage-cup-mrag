@@ -1,0 +1,43 @@
+{
+  "schema": "selected-r58-historical-cases-v1",
+  "scope": "Selected development30 frozen records, not a new inference run or an independent score",
+  "source_review_archive_sha256": "29a932d786b6ea796b959599472980cb8bf50b07fba0a30b7e08e423e1d579d4",
+  "source_json_member": "four-layer-results.json",
+  "source_json_sha256": "60c984c9a4840ca355a53d3ffa29c2a25257bceace17665c3d225196c44fc3ba",
+  "published_fields": "Question, final model/system answer, result identity, source identity/page and historical runtime; no gold labels or full judge outputs",
+  "inference_input_contract": "Only question; the audit sample IDs are not sent to inference.",
+  "cases": [
+    {
+      "sample_id_for_audit_only": "energy_text_only_0195",
+      "question": "How much energy from biomass is anticipated to be supplied to the UK's total primary energy under the DECC scenario referred to as SBF, when measured in terawatt-hours?",
+      "final_answer": "1062",
+      "actual_result_sha256": "931f1ddd6b374f00f15dc703252fb610a76ea03595320e45012a4bbd1fcc2927",
+      "original_source_assessment_historical": "complete_supported",
+      "source_locations_from_historical_review": [
+        {
+          "document_name": "energy_2357218",
+          "doc_sha256": "9c81d6ecc278edf52337154b638df617b45a81f05a3d4043d35716fa185728a2",
+          "physical_pdf_page": 13
+        }
+      ],
+      "end_to_end_seconds_historical": 34.762046246032696,
+      "source_location_scope": "Source-review locations; for a refusal these are inspected context, not accepted answer citations."
+    },
+    {
+      "sample_id_for_audit_only": "construction_image_only_0047",
+      "question": "Which machinery is usually employed to clear snow on River Street during December 2008 as depicted?",
+      "final_answer": "",
+      "actual_result_sha256": "734b6916cabaa4269a6773ebf05f9c0a21313d6d8a7981a72351dd8307152098",
+      "original_source_assessment_historical": "withheld",
+      "source_locations_from_historical_review": [
+        {
+          "document_name": "construction_1676343",
+          "doc_sha256": "7b0d0d03758de2e05988afc5aae1ae32258351d3ce48257ac7da68c4ba14f4ee",
+          "physical_pdf_page": 12
+        }
+      ],
+      "end_to_end_seconds_historical": 33.845932140015066,
+      "source_location_scope": "Source-review locations; for a refusal these are inspected context, not accepted answer citations."
+    }
+  ]
+}

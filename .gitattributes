@@ -1,0 +1,2 @@
+# Preserve the frozen source bytes and explicit public export hashes across hosts.
+* -text

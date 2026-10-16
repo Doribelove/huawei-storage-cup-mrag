@@ -7,7 +7,7 @@ from pathlib import Path, PurePosixPath
 
 def verify(root, strict=False):
     root = Path(root).resolve()
-    manifest = json.loads((root/'manifest/files.json').read_text())
+    manifest = json.loads((root/'manifest/files.json').read_text(encoding='utf-8'))
     declared = set()
     errors = []
     for entry in manifest['files']:
@@ -25,7 +25,7 @@ def verify(root, strict=False):
             while block := stream.read(4*1024**2): digest.update(block)
         if local.stat().st_size != entry['bytes'] or digest.hexdigest() != entry['sha256']:
             errors.append(name + ': bytes changed')
-    actual = {str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()}
+    actual = {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()}
     extras = sorted(actual - declared - {'manifest/files.json','manifest/files.sha256'})
     if strict and extras:
         errors.extend(name + ': unlisted' for name in extras)

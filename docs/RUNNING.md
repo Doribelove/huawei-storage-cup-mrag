@@ -1,4 +1,4 @@
-# Running the frozen r58 source
+# Running the confirmed final r58 source
 
 These commands document the interface; publication does not execute model inference. Run compute only when the target host's sole execution owner has assigned a serial slot under the existing host policy. Do not stop unrelated tasks, bypass guards or assume that an absent lock is a handoff.
 
@@ -63,3 +63,25 @@ PYTHONPATH=src:tests python -B -m unittest test_released_interface
 This six-test fixture suite checks source pairing, tamper rejection, label quarantine, no-overwrite behavior and question-only HTTP/refusal contracts. It does not load Qwen/BGE or establish model accuracy. `scripts/run_tests.py` discovers the entire suite, which needs additional qualified dependencies; do not describe the selected six tests as a full-suite rerun.
 
 The original `raganything` library is separately available in this repository but needs `environment/requirements-raganything-original.txt`, including LightRAG and MinerU. Missing those dependencies does not show that the active r58 adapter is broken.
+
+
+## Final r58 dependency-loader update (2026-10-16 publication)
+
+This publication now follows the user-confirmed final r58 website ZIP, not the earlier technical-declaration r2 snapshot. The application algorithm remains frozen. The final release adds `dependency_loader.py`, its four fixture tests, `scripts/verify_release_runtime.py`, and platform/model provenance documentation. Installed target-platform packages take precedence; legacy vendor packages can only be appended on the matching original ABI. No vendor tree is redistributed.
+
+After preparing the qualified interpreter, run from the repository root:
+
+```sh
+"$MRAG_PYTHON" -I -B scripts/verify_release_runtime.py --role client
+"$MRAG_PYTHON" -I -B scripts/verify_release_runtime.py --role worker
+```
+
+The original `verify_package.py` validates a release `manifest/files.json`. The private delivery manifest is intentionally not copied because it names excluded data, signatures and bundled runtime packages. Public source integrity is instead recorded in `evidence/publication-r58-20261016-source.json` and Git. Do not claim `verify_package.py --strict` passed on this Git checkout.
+
+For a complete synthetic software run with the required non-model dependencies installed:
+
+```sh
+python -B scripts/run_tests.py
+```
+
+These fixtures do not execute model inference. They require a writable temporary directory and permission for localhost HTTP tests. See the new publication validation record for the environment actually tested. Chinese overview: [README](../README.md), [design](DESIGN.md), [models](MODELS.md).

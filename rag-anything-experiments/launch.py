@@ -3,7 +3,12 @@ from pathlib import Path
 import runpy
 import sys
 project = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(project/'vendor'))
+import importlib.util
+_dependency_spec = importlib.util.spec_from_file_location(
+    '_mrag_release_dependencies', project/'rag-anything-experiments/dependency_loader.py')
+_dependency_module = importlib.util.module_from_spec(_dependency_spec)
+_dependency_spec.loader.exec_module(_dependency_module)
+_dependency_module.configure_dependencies(project)
 target = Path(sys.argv[1]).resolve()
 if not target.is_relative_to(project/'rag-anything-experiments'):
     raise ValueError('Entrypoint must belong to this release')

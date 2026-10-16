@@ -1,0 +1,60 @@
+{
+  "schema": "historical-r58-smoke-public-excerpt-v1",
+  "version": "User-confirmed final r58 local Transformers backend",
+  "run_id": "final-r58-minimum-acceptance-20261015-attempt2",
+  "raw_receipt_sha256": "3be305ec9dec66ec6931370ac28bf61ed105d7fbc71092b3372b04d76c637d6b",
+  "source_archive_sha256": "ed473be8b164ca617c784018458e07144cc7724e2d2fb017b5403b5f78fd3355",
+  "input_pdf": {
+    "basename": "finance_3769357_origin.pdf",
+    "sha256": "cd5217e29406b2726a62e0706baa5e295b2064099bf567445f4987adf68deb7a"
+  },
+  "scope": "one paired real document fresh build and one question-only real HTTP query",
+  "request": {
+    "question": "According to the BDC quarterly economic outlook, how did the average exchange rate change between the first quarter of 2012 and the fourth quarter of 2013?"
+  },
+  "response": {
+    "answer": "The average exchange rate for BDC increased from 161.6 in Q1-12 to 167.9 in Q4-13.",
+    "status": "answered",
+    "citations": [
+      {
+        "type": "visual_observation",
+        "image_id": "image-a50b68bbceddb7d21e04f99d",
+        "observation": "Application source reference; no model observation was requested.",
+        "region": {
+          "coordinate_system": "selected_image_pixels_top_left",
+          "bbox_half_open": [
+            0,
+            0,
+            1224,
+            554
+          ]
+        }
+      }
+    ],
+    "query_time_s": 107.3451,
+    "avg_query_time_s": 107.3451,
+    "total_queries": 1,
+    "request_id": "query_000001"
+  },
+  "build_elapsed_seconds": 30.428353183000127,
+  "actual_model_inference": true,
+  "benchmark_accuracy_claim": false,
+  "full30_rerun": false,
+  "editorial_source_check": {
+    "performed_in_this_publication_task": true,
+    "title": "2013 Economic Report and 2014 Outlook",
+    "publisher": "Watershed Capital Limited",
+    "physical_pdf_page": 16,
+    "figure": 11,
+    "values": {
+      "BDC_Q1_2012": 161.6,
+      "BDC_Q4_2013": 167.9
+    },
+    "note": "Page association was independently checked during documentation preparation; the original response did not return a page number. The historical question calls it a BDC quarterly outlook; the source title above is the actual PDF title.",
+    "original_image_publication": "Original chart not redistributed; a separately drawn numeric summary is provided."
+  },
+  "redactions": [
+    "absolute host paths, process IDs, unrelated machine state, full commands and credentials are omitted"
+  ],
+  "extraction": "Selected fields copied from the original receipt; request and response values unchanged."
+}
