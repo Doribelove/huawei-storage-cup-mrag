@@ -68,12 +68,14 @@ class ReleasedInterfaceTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 source.verify_citation(source.records[0]['evidence_id'])
 
-    def test_new_server_interface_question_only_and_refusal(self):
+    def test_server_distinguishes_refusal_invalid_request_and_worker_failure(self):
         class FixtureRunner:
+            status = 'withheld'
             seen = []
             def answer(self, question):
                 self.seen.append(question)
-                return {'answer': '', 'status': 'withheld', 'query_time_s': 0.001}
+                answer = 'Example answer' if self.status == 'answered' else ''
+                return {'answer': answer, 'status': self.status, 'query_time_s': 0.001}
         runner = FixtureRunner()
         server = HTTPServer(('127.0.0.1', 0), adapter.make_handler(runner))
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -91,6 +93,19 @@ class ReleasedInterfaceTests(unittest.TestCase):
                 urllib.request.urlopen(bad, timeout=3)
             self.assertEqual(caught.exception.code, 422)
             self.assertEqual(len(runner.seen), 1)
+
+            for status, answer in [('answered', 'Example answer'), ('not_enough_evidence', '')]:
+                runner.status = status
+                with urllib.request.urlopen(request, timeout=3) as response:
+                    self.assertEqual(response.status, 200)
+                    self.assertEqual(json.load(response)['answer'], answer)
+
+            runner.status = 'failed'
+            with self.assertRaises(urllib.error.HTTPError) as failed:
+                urllib.request.urlopen(request, timeout=3)
+            with failed.exception as error:
+                self.assertEqual(error.code, 500)
+                self.assertEqual(json.load(error)['status'], 'failed')
         finally:
             server.shutdown(); thread.join(); server.server_close()
 

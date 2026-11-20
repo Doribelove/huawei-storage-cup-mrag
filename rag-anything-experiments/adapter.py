@@ -330,7 +330,8 @@ def make_handler(runner):
                 # the answerer through this interface.
                 if not isinstance(body, dict) or set(body) != {'question'}:
                     raise ValueError('Only the question field is accepted')
-                self.respond(200, runner.answer(body['question']))
+                packet = runner.answer(body['question'])
+                self.respond(500 if packet['status'] == 'failed' else 200, packet)
             except (ValueError, TypeError, UnicodeError) as exc:
                 self.respond(422, {'error': str(exc)})
     return Handler
